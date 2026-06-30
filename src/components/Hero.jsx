@@ -1,260 +1,142 @@
-import { useEffect, useRef } from 'react'
-import { HiLocationMarker, HiMail } from 'react-icons/hi'
-import { FiDownload } from 'react-icons/fi'
-import { personalInfo, quickStats } from '../data/portfolioData'
+import { useState, useEffect } from 'react'
+import { personalInfo } from '../data/portfolioData'
 
-function useReveal(ref) {
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          el.classList.add('visible')
-        }
-      },
-      { threshold: 0.1 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [ref])
-}
-
-function Reveal({ children, style }) {
-  const ref = useRef(null)
-  useReveal(ref)
-  return <div ref={ref} className="reveal" style={style}>{children}</div>
-}
+const bootLines = [
+  { text: '[  OK  ] Initializing kernel modules...', delay: 200 },
+  { text: '[  OK  ] Mounting filesystems...', delay: 400 },
+  { text: '[  OK  ] Starting networking service...', delay: 600 },
+  { text: '[  OK  ] Loading security profiles...', delay: 800 },
+  { text: '[  OK  ] Starting display manager...', delay: 1000 },
+  { text: '', delay: 1100 },
+  { text: 'Welcome to godwin-portfolio v1.0', delay: 1200 },
+  { text: 'System ready. Press ENTER to continue.', delay: 1400 },
+]
 
 export default function Hero() {
+  const [booted, setBooted] = useState(false)
+  const [visibleLines, setVisibleLines] = useState(0)
+  const [showPrompt, setShowPrompt] = useState(false)
+  const [typed, setTyped] = useState('')
+  const [commandSent, setCommandSent] = useState(false)
+
+  useEffect(() => {
+    if (visibleLines < bootLines.length) {
+      const timer = setTimeout(() => {
+        setVisibleLines((v) => {
+          if (v >= bootLines.length) return v
+          return v + 1
+        })
+      }, bootLines[visibleLines]?.delay || 300)
+      return () => clearTimeout(timer)
+    } else {
+      const timer = setTimeout(() => {
+        setBooted(true)
+        setShowPrompt(true)
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [visibleLines])
+
+  useEffect(() => {
+    if (!showPrompt || commandSent) return
+    const fullCmd = './intro --display'
+    if (typed.length < fullCmd.length) {
+      const timer = setTimeout(() => {
+        setTyped(fullCmd.slice(0, typed.length + 1))
+      }, 40)
+      return () => clearTimeout(timer)
+    } else {
+      const timer = setTimeout(() => setCommandSent(true), 400)
+      return () => clearTimeout(timer)
+    }
+  }, [showPrompt, typed, commandSent])
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      setShowPrompt(true)
+    }
+  }
+
   return (
-    <section id="hero" className="hero" style={{ overflow: 'hidden', padding: '100px 0 60px', position: 'relative' }}>
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          zIndex: 0,
-        }}
-      >
-        <div className="shape shape-1" style={{
-          position: 'absolute',
-          borderRadius: '50%',
-          filter: 'blur(40px)',
-          opacity: 0.05,
-          background: 'var(--accent)',
-          width: 400,
-          height: 400,
-          left: '-10%',
-          top: '10%',
-          animation: 'float1 25s ease-in-out infinite',
-        }} />
-        <div className="shape shape-2" style={{
-          position: 'absolute',
-          borderRadius: '50%',
-          filter: 'blur(40px)',
-          opacity: 0.05,
-          background: 'var(--accent-2)',
-          width: 300,
-          height: 300,
-          right: '-5%',
-          bottom: '20%',
-          animation: 'float2 20s ease-in-out infinite',
-        }} />
-        <div className="shape shape-3" style={{
-          position: 'absolute',
-          borderRadius: '50%',
-          filter: 'blur(40px)',
-          opacity: 0.05,
-          background: 'var(--accent-3)',
-          width: 200,
-          height: 200,
-          left: '30%',
-          top: '60%',
-          animation: 'float3 22s ease-in-out infinite',
-        }} />
-      </div>
-
-      <div className="hero-inner" style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 48,
-        justifyContent: 'space-between',
-        maxWidth: 'var(--container)',
-        margin: '0 auto',
-        padding: '0 20px',
-        position: 'relative',
-        zIndex: 1,
-      }}>
-        <div className="hero-copy" style={{ flex: 1, minWidth: 260 }}>
-          <Reveal>
-            <p style={{ color: 'var(--accent)', fontSize: 14, fontWeight: 600, margin: '0 0 8px', letterSpacing: '0.5px' }}>
-              Hello, I&apos;m
-            </p>
-          </Reveal>
-
-          <Reveal style={{ transitionDelay: '0.1s' }}>
-            <h1 className="hero-name" style={{
-              fontSize: 52,
-              fontWeight: 800,
-              letterSpacing: -1,
-              lineHeight: 1.05,
-              margin: 0,
-              background: 'linear-gradient(135deg, var(--text) 0, var(--accent) 50%, var(--accent-2) 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>
-              {personalInfo.name}
-            </h1>
-          </Reveal>
-
-          <Reveal style={{ transitionDelay: '0.2s' }}>
-            <p className="hero-title" style={{ color: 'var(--accent)', fontSize: 20, fontWeight: 700, margin: '12px 0 0' }}>
-              {personalInfo.title}
-            </p>
-          </Reveal>
-
-          <Reveal style={{ transitionDelay: '0.3s' }}>
-            <p className="hero-tagline" style={{ color: 'var(--accent-2)', fontSize: 16, fontWeight: 600, margin: '8px 0 0' }}>
-              {personalInfo.subtitle}
-            </p>
-          </Reveal>
-
-          <Reveal style={{ transitionDelay: '0.4s' }}>
-            <p className="hero-lead" style={{ color: 'var(--muted)', fontSize: 17, lineHeight: 1.7, marginTop: 20, maxWidth: 600 }}>
-              {personalInfo.tagline}
-            </p>
-          </Reveal>
-
-          <Reveal style={{ transitionDelay: '0.5s' }}>
-            <div className="hero-actions" style={{ display: 'flex', gap: 14, marginTop: 28, flexWrap: 'wrap' }}>
-              <a href={`mailto:${personalInfo.email}`} className="btn btn-primary">
-                <HiMail /> Get in Touch
-              </a>
-              <a href={`tel:${personalInfo.phone}`} className="btn btn-ghost">
-                <HiLocationMarker /> {personalInfo.location}
-              </a>
+    <section id="about" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: 80 }}>
+      <div className="container">
+        {!booted ? (
+          <div>
+            {bootLines.slice(0, visibleLines).map((line, i) => (
+              <div key={i} className="boot-line" style={{ animationDelay: `${i * 0.05}s`, fontSize: 13, lineHeight: 1.8 }}>
+                {line.text}
+              </div>
+            ))}
+            <div className="boot-line" style={{ animationDelay: `${bootLines.length * 0.05}s`, fontSize: 13, marginTop: 8 }}>
+              <span className="blink" style={{ color: 'var(--text-dim)' }}>_</span>
             </div>
-          </Reveal>
-
-          <Reveal style={{ transitionDelay: '0.6s' }}>
-            <ul className="quick-stats" style={{
-              display: 'flex',
-              gap: 28,
-              listStyle: 'none',
-              padding: 0,
-              marginTop: 24,
-              flexWrap: 'wrap',
-            }}>
-              {quickStats.map((stat) => (
-                <li key={stat.label} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  fontSize: 14,
-                  fontWeight: 600,
-                  color: 'var(--muted)',
-                }}>
-                  <span style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: '50%',
-                    background: 'var(--accent)',
-                    display: 'inline-block',
-                  }} />
-                  {stat.value} {stat.label}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
-
-        <div className="hero-photo" style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
-          padding: '0 8px',
-        }}>
-          <div
-            style={{
-              position: 'absolute',
-              inset: -8,
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3))',
-              filter: 'blur(20px)',
-              opacity: 0.15,
-              animation: 'photoGlow 4s ease-in-out infinite',
-            }}
-          />
-          <div
-            style={{
-              width: 240,
-              height: 240,
-              borderRadius: '50%',
-              background: 'var(--card-bg)',
-              border: '4px solid var(--glass)',
-              boxShadow: '0 20px 60px rgba(59,130,246,0.2)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative',
-              zIndex: 1,
-              fontSize: 72,
-              fontWeight: 700,
-              color: 'var(--accent)',
-              transition: 'transform 0.4s ease, box-shadow 0.4s ease',
-              cursor: 'default',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'scale(1.05)'
-              e.currentTarget.style.boxShadow = '0 30px 80px rgba(59,130,246,0.3)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'scale(1)'
-              e.currentTarget.style.boxShadow = '0 20px 60px rgba(59,130,246,0.2)'
-            }}
-          >
-            {personalInfo.initials}
           </div>
-        </div>
-      </div>
+        ) : (
+          <div>
+            <div className="prompt-line" style={{ marginBottom: 16 }}>
+              <span className="prompt-user">guest</span>
+              <span className="prompt-at">@</span>
+              <span className="prompt-host">godwin-portfolio</span>
+              <span className="prompt-sep">:</span>
+              <span className="prompt-path">~</span>
+              <span className="prompt-symbol">$</span>
+              <span style={{ color: 'var(--cyan)' }}>{typed}</span>
+              {!commandSent && <span className="blink" style={{ color: 'var(--text)' }}>|</span>}
+            </div>
 
-      <div className="scroll-indicator" style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 8,
-        position: 'absolute',
-        bottom: 30,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 2,
-        color: 'var(--muted)',
-        fontSize: 12,
-        fontWeight: 600,
-      }}>
-        <span>Scroll</span>
-        <div style={{
-          width: 24,
-          height: 40,
-          border: '2px solid var(--muted)',
-          borderRadius: 12,
-          position: 'relative',
-        }}>
-          <div style={{
-            width: 3,
-            height: 8,
-            background: 'var(--accent)',
-            borderRadius: 3,
-            position: 'absolute',
-            top: 8,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            animation: 'scrollWheel 2s ease-in-out infinite',
-          }} />
-        </div>
+            {commandSent && (
+              <div style={{ animation: 'bootFadeIn 0.3s ease forwards' }}>
+                <pre className="ascii-art" style={{ margin: '16px 0' }}>
+{` ██████╗  ██████╗ ██████╗ ██╗    ██╗██╗███╗   ██╗
+██╔════╝ ██╔═══██╗██╔══██╗██║    ██║██║████╗  ██║
+██║  ███╗██║   ██║██║  ██║██║ █╗ ██║██║██╔██╗ ██║
+██║   ██║██║   ██║██║  ██║██║███╗██║██║██║╚██╗██║
+╚██████╔╝╚██████╔╝██████╔╝╚███╔███╔╝██║██║ ╚████║
+ ╚═════╝  ╚═════╝ ╚═════╝  ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝`}
+                </pre>
+
+                <div className="cmd-output" style={{ marginBottom: 24 }}>
+                  <div style={{ fontSize: 13, color: 'var(--text-dim)', marginBottom: 8 }}>
+                    # {personalInfo.tagline}
+                  </div>
+                  <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 4 }}>
+                    location: {personalInfo.location}
+                  </div>
+                  <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 4 }}>
+                    email: {personalInfo.email}
+                  </div>
+                  <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 4 }}>
+                    phone: {personalInfo.phone}
+                  </div>
+                  <div style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>
+                    title: {personalInfo.title}
+                  </div>
+
+                  <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.7, maxWidth: 700 }}>
+                    {personalInfo.tagline}
+                  </div>
+                </div>
+
+                <div className="prompt-line" style={{ marginTop: 24 }}>
+                  <span className="prompt-user">guest</span>
+                  <span className="prompt-at">@</span>
+                  <span className="prompt-host">godwin-portfolio</span>
+                  <span className="prompt-sep">:</span>
+                  <span className="prompt-path">~</span>
+                  <span className="prompt-symbol">$</span>
+                  <span style={{ color: 'var(--text-dim)', fontSize: 13 }}>Available: ./nav --links</span>
+                  <span className="blink" style={{ color: 'var(--text)' }}>|</span>
+                </div>
+              </div>
+            )}
+
+            {!showPrompt && (
+              <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+                Press <span style={{ color: 'var(--accent)', border: '1px solid var(--text-dim)', padding: '2px 6px' }}>ENTER</span> to continue...
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </section>
   )

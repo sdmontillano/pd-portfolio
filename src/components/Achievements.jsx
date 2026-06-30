@@ -1,122 +1,79 @@
-import { useEffect, useRef } from 'react'
-import { HiCode, HiShieldCheck, HiCog } from 'react-icons/hi'
-import { services, stats } from '../data/portfolioData'
-
-function useReveal(ref) {
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) el.classList.add('visible')
-      },
-      { threshold: 0.1 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [ref])
-}
-
-function Reveal({ children, style }) {
-  const ref = useRef(null)
-  useReveal(ref)
-  return <div ref={ref} className="reveal" style={style}>{children}</div>
-}
-
-const iconMap = {
-  code: HiCode,
-  shield: HiShieldCheck,
-  gear: HiCog,
-}
-
-function ServiceCard({ title, description, icon }) {
-  const Icon = iconMap[icon] || HiCode
-
-  return (
-    <Reveal>
-      <div className="service-card" style={{
-        background: 'var(--card-bg)',
-        border: '1px solid rgba(15,23,42,0.05)',
-        borderRadius: 'var(--radius)',
-        padding: 28,
-        position: 'relative',
-        overflow: 'hidden',
-        transition: 'all 0.3s ease',
-      }}>
-        <div className="service-icon" style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 52,
-          height: 52,
-          borderRadius: 12,
-          background: 'rgba(59,130,246,0.1)',
-          fontSize: 24,
-          color: 'var(--accent)',
-          marginBottom: 16,
-        }}>
-          <Icon />
-        </div>
-        <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text)', margin: '0 0 10px' }}>
-          {title}
-        </h3>
-        <p style={{ color: 'var(--muted)', fontSize: 14, lineHeight: 1.6, margin: 0 }}>
-          {description}
-        </p>
-      </div>
-    </Reveal>
-  )
-}
+import { certifications, services } from '../data/portfolioData'
 
 export default function Achievements() {
   return (
-    <>
-      <section style={{ scrollMarginTop: 80 }}>
-        <div className="stats-section" style={{
-          background: 'var(--card-bg)',
-          borderTop: '1px solid rgba(15,23,42,0.05)',
-          borderBottom: '1px solid rgba(15,23,42,0.05)',
-          padding: '30px 0',
-        }}>
-          <div className="container">
-            <div className="stats-grid" style={{ display: 'flex', flexWrap: 'wrap', gap: 60, justifyContent: 'center' }}>
-              {stats.map((stat) => (
-                <Reveal key={stat.label}>
-                  <div className="stat-item" style={{ textAlign: 'center' }}>
-                    <div className="stat-value" style={{ color: 'var(--accent)', fontSize: 28, fontWeight: 800, lineHeight: 1 }}>
-                      {stat.value}
-                    </div>
-                    <div className="stat-label" style={{ color: 'var(--muted)', fontSize: 13, fontWeight: 600, letterSpacing: '0.5px', textTransform: 'uppercase', marginTop: 6 }}>
-                      {stat.label}
-                    </div>
-                  </div>
-                </Reveal>
+    <section id="certs">
+      <div className="container">
+        <div className="section-header">
+          <h2>$ cat certs.asc</h2>
+        </div>
+
+        <div className="cmd-output">
+          <div className="prompt-line" style={{ fontSize: 13, marginBottom: 12 }}>
+            <span className="prompt-user">guest</span>
+            <span className="prompt-at">@</span>
+            <span className="prompt-host">godwin-portfolio</span>
+            <span className="prompt-sep">:</span>
+            <span className="prompt-path">~</span>
+            <span className="prompt-symbol">$</span>
+            <span style={{ color: 'var(--text)' }}>cat certs.asc</span>
+          </div>
+
+          <table className="cmd-table">
+            <thead>
+              <tr>
+                <th>Certification</th>
+                <th>Issuer</th>
+                <th>Year</th>
+              </tr>
+            </thead>
+            <tbody>
+              {certifications.map((cert) => (
+                <tr key={cert.name}>
+                  <td style={{ color: 'var(--accent)' }}>{cert.name}</td>
+                  <td>{cert.issuer}</td>
+                  <td style={{ color: 'var(--warn)' }}>{cert.year}</td>
+                </tr>
               ))}
+            </tbody>
+          </table>
+
+          <div style={{ marginTop: 32 }}>
+            <div className="prompt-line" style={{ fontSize: 13, marginBottom: 12 }}>
+              <span className="prompt-user">guest</span>
+              <span className="prompt-at">@</span>
+              <span className="prompt-host">godwin-portfolio</span>
+              <span className="prompt-sep">:</span>
+              <span className="prompt-path">~</span>
+              <span className="prompt-symbol">$</span>
+              <span style={{ color: 'var(--text)' }}>./services --status</span>
             </div>
+
+            <table className="cmd-table">
+              <thead>
+                <tr>
+                  <th>Service</th>
+                  <th>Command</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {services.map((svc) => (
+                  <tr key={svc.name}>
+                    <td style={{ color: 'var(--accent)' }}>{svc.name}</td>
+                    <td style={{ color: 'var(--cyan)', fontFamily: 'monospace' }}>{svc.cmd}</td>
+                    <td style={{ fontSize: 12, color: 'var(--text-dim)' }}>{svc.desc}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="prompt-line" style={{ marginTop: 16, fontSize: 13 }}>
+            <span className="blink" style={{ color: 'var(--text)' }}>_</span>
           </div>
         </div>
-      </section>
-
-      <section id="achievements" style={{ scrollMarginTop: 80, padding: '60px 0' }}>
-        <div className="container">
-          <Reveal>
-            <h2 className="section-title" style={{ fontSize: 20, fontWeight: 700, margin: '0 0 18px' }}>
-              What I Can Do
-            </h2>
-          </Reveal>
-
-          <div className="services-grid" style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: 20,
-            marginTop: 24,
-          }}>
-            {services.map((service) => (
-              <ServiceCard key={service.title} {...service} />
-            ))}
-          </div>
-        </div>
-      </section>
-    </>
+      </div>
+    </section>
   )
 }

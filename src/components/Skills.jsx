@@ -1,102 +1,63 @@
-import { useEffect, useRef, useState } from 'react'
 import { skills } from '../data/portfolioData'
-
-function useReveal(ref) {
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) el.classList.add('visible')
-      },
-      { threshold: 0.1 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [ref])
-}
-
-function Reveal({ children, style }) {
-  const ref = useRef(null)
-  useReveal(ref)
-  return <div ref={ref} className="reveal" style={style}>{children}</div>
-}
-
-function SkillBar({ name, level, icon: Icon }) {
-  const [visible, setVisible] = useState(false)
-  const ref = useRef(null)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.3 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  return (
-    <div ref={ref} className="skill-row" style={{
-      background: 'var(--card-bg)',
-      border: '1px solid rgba(15,23,42,0.05)',
-      borderRadius: 14,
-      padding: '16px 18px',
-      transition: 'all 0.25s ease',
-    }}>
-      <div className="skill-header" style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-        {Icon && <Icon style={{ fontSize: 20, color: 'var(--accent)' }} />}
-        <span className="skill-name" style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)' }}>{name}</span>
-      </div>
-      <div className="skill-bar" style={{
-        background: 'rgba(15,23,42,0.06)',
-        borderRadius: 10,
-        height: 8,
-        overflow: 'hidden',
-      }}>
-        <div
-          className="skill-fill"
-          style={{
-            background: 'linear-gradient(90deg, var(--accent), var(--accent-2))',
-            borderRadius: 10,
-            height: '100%',
-            width: visible ? `${level}%` : '0%',
-            transition: 'width 0.9s cubic-bezier(0.2, 0.9, 0.2, 1)',
-          }}
-        />
-      </div>
-      <div className="skill-pct" style={{ color: 'var(--accent)', fontSize: 12, fontWeight: 700, marginTop: 8, textAlign: 'right' }}>
-        {level}%
-      </div>
-    </div>
-  )
-}
 
 export default function Skills() {
   return (
-    <section id="skills" style={{ scrollMarginTop: 80, padding: '60px 0' }}>
+    <section id="skills">
       <div className="container">
-        <Reveal>
-          <h2 className="section-title" style={{ fontSize: 20, fontWeight: 700, margin: '0 0 18px' }}>
-            Skills & Expertise
-          </h2>
-        </Reveal>
+        <div className="section-header">
+          <h2>$ ls /skills/ -la</h2>
+        </div>
 
-        <div className="skills-grid" style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          gap: 16,
-          marginTop: 24,
-        }}>
-          {skills.map((skill) => (
-            <SkillBar key={skill.name} {...skill} />
-          ))}
+        <div className="cmd-output">
+          <div className="prompt-line" style={{ fontSize: 13, marginBottom: 12 }}>
+            <span className="prompt-user">guest</span>
+            <span className="prompt-at">@</span>
+            <span className="prompt-host">godwin-portfolio</span>
+            <span className="prompt-sep">:</span>
+            <span className="prompt-path">~</span>
+            <span className="prompt-symbol">$</span>
+            <span style={{ color: 'var(--text)' }}>ls /skills/ -la</span>
+          </div>
+
+          <table className="cmd-table">
+            <thead>
+              <tr>
+                <th>Skill</th>
+                <th>Level</th>
+                <th>Bar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {skills.map((s) => (
+                <tr key={s.name}>
+                  <td style={{ color: 'var(--cyan)', fontWeight: 500 }}>{s.name}</td>
+                  <td style={{ color: 'var(--text)' }}>{s.level}%</td>
+                  <td style={{ width: '40%' }}>
+                    <div style={{
+                      background: 'var(--surface-2)',
+                      height: 6,
+                      width: '100%',
+                      border: '1px solid var(--border)',
+                    }}>
+                      <div style={{
+                        width: `${s.level}%`,
+                        height: '100%',
+                        background: s.level >= 80 ? 'var(--accent)' : s.level >= 70 ? 'var(--cyan)' : 'var(--text-dim)',
+                      }} />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div className="prompt-line" style={{ marginTop: 16, fontSize: 13 }}>
+            <span style={{ color: 'var(--text-dim)' }}>total: {skills.length} entries</span>
+          </div>
+
+          <div className="prompt-line" style={{ marginTop: 8, fontSize: 13 }}>
+            <span className="blink" style={{ color: 'var(--text)' }}>_</span>
+          </div>
         </div>
       </div>
     </section>

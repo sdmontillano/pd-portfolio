@@ -1,84 +1,52 @@
-import { useEffect, useRef } from 'react'
-import { HiCalendar } from 'react-icons/hi'
 import { experience } from '../data/portfolioData'
-
-function useReveal(ref) {
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) el.classList.add('visible')
-      },
-      { threshold: 0.1 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [ref])
-}
-
-function Reveal({ children, style }) {
-  const ref = useRef(null)
-  useReveal(ref)
-  return <div ref={ref} className="reveal" style={style}>{children}</div>
-}
 
 export default function Experience() {
   return (
-    <section id="experience" style={{ scrollMarginTop: 80, padding: '60px 0' }}>
+    <section id="experience">
       <div className="container">
-        <Reveal>
-          <h2 className="section-title" style={{ fontSize: 20, fontWeight: 700, margin: '0 0 18px' }}>
-            Experience
-          </h2>
-        </Reveal>
+        <div className="section-header">
+          <h2>$ cat experience.log</h2>
+        </div>
 
-        <div className="timeline" style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 24 }}>
-          <Reveal>
-            <div className="timeline-item" style={{
-              background: 'var(--card-bg)',
-              border: '1px solid rgba(15,23,42,0.05)',
-              borderRadius: 14,
-              padding: 18,
-              transition: 'all 0.25s ease',
-            }}>
-              <div className="timeline-head" style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: 12,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-                <span className="role" style={{ fontSize: 16, fontWeight: 700, color: 'var(--text)' }}>
-                  {experience.role}
-                </span>
-                <span style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  fontSize: 13,
-                  color: 'var(--muted)',
-                  fontWeight: 600,
-                }}>
-                  <HiCalendar />
-                  {experience.period}
-                </span>
+        <div className="cmd-output">
+          <div className="prompt-line" style={{ fontSize: 13, marginBottom: 12 }}>
+            <span className="prompt-user">guest</span>
+            <span className="prompt-at">@</span>
+            <span className="prompt-host">godwin-portfolio</span>
+            <span className="prompt-sep">:</span>
+            <span className="prompt-path">~</span>
+            <span className="prompt-symbol">$</span>
+            <span style={{ color: 'var(--text)' }}>cat experience.log</span>
+          </div>
+
+          {experience.map((exp, i) => (
+            <div key={i} style={{ marginBottom: 16 }}>
+              <div style={{ fontSize: 13 }}>
+                <span style={{ color: 'var(--text-muted)' }}>timestamp: </span>
+                <span style={{ color: 'var(--warn)' }}>{exp.period}</span>
               </div>
-              <div style={{ color: 'var(--accent)', fontSize: 14, fontWeight: 600, marginTop: 4 }}>
-                {experience.company}
+              <div style={{ fontSize: 13 }}>
+                <span style={{ color: 'var(--text-muted)' }}>role: </span>
+                <span style={{ color: 'var(--accent)' }}>{exp.role}</span>
               </div>
-              <div style={{ color: 'var(--muted)', fontSize: 13, marginTop: 2 }}>
-                {experience.department} &middot; {experience.duration}
+              <div style={{ fontSize: 13 }}>
+                <span style={{ color: 'var(--text-muted)' }}>company: </span>
+                <span style={{ color: 'var(--cyan)' }}>{exp.company}</span>
+                <span style={{ color: 'var(--text-dim)' }}> ({exp.duration})</span>
               </div>
-              <p className="timeline-desc" style={{ color: 'var(--muted)', lineHeight: 1.6, marginTop: 10, fontSize: 14 }}>
-                {experience.highlights.map((h, i) => (
-                  <span key={i} style={{ display: 'block', marginBottom: 4 }}>
-                    &bull; {h}
-                  </span>
+              <div style={{ marginTop: 8, fontSize: 13, paddingLeft: 20, borderLeft: '2px solid var(--border)' }}>
+                {exp.highlights.map((h, j) => (
+                  <div key={j} style={{ marginBottom: 4, color: 'var(--text)' }}>
+                    <span style={{ color: 'var(--text-dim)' }}>&gt; </span>{h}
+                  </div>
                 ))}
-              </p>
+              </div>
             </div>
-          </Reveal>
+          ))}
+
+          <div className="prompt-line" style={{ marginTop: 12, fontSize: 13 }}>
+            <span className="blink" style={{ color: 'var(--text)' }}>_</span>
+          </div>
         </div>
       </div>
     </section>
