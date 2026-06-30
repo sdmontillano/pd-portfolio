@@ -1,74 +1,40 @@
 import { skills } from '../data/portfolioData'
 
-const rotations = ['rot-1', 'rot-2', 'rot-3', 'rot-4', 'rot-1', 'rot-3']
-
 export default function Skills() {
   return (
     <section id="skills">
       <div className="container">
-        <div style={{
-          fontFamily: 'var(--font-marker)',
-          fontSize: 14,
-          color: 'var(--red)',
-          marginBottom: 4,
-          letterSpacing: 2,
-        }}>
-          PAGE 02
+        <div className="section-label">Skills</div>
+        <div className="vermillion-bar" />
+        <div className="section-title">
+          Expertise <span>&amp; Toolkit</span>
         </div>
 
-        <h2 style={{
-          fontFamily: 'var(--font-marker)',
-          fontSize: 28,
-          margin: '0 0 20px',
-        }}>
-          SKILLS
-        </h2>
-
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 10,
-          padding: 16,
-          background: 'white',
-          border: '2px solid var(--ink)',
-          boxShadow: '4px 4px 0 var(--ink)',
-          position: 'relative',
-        }}>
-          <div className="tape" style={{ top: -8, left: '30%', transform: 'rotate(4deg)' }} />
-          <div className="tape" style={{ top: -8, right: '30%', transform: 'rotate(-3deg)' }} />
-
-          {skills.map((s, i) => (
-            <span
-              key={s.name}
-              className={`tag ${rotations[i % rotations.length]}`}
-              style={{
-                fontSize: 15,
-                padding: '6px 14px',
-                position: 'relative',
-              }}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 8 }}>
+          {skills.map((s) => (
+            <div key={s.name} style={{
+              padding: '14px 16px',
+              border: '1px solid var(--border)',
+              background: 'var(--surface)',
+              transition: 'all 0.2s',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--red)'; e.currentTarget.style.boxShadow = '2px 2px 0 var(--red)' }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.boxShadow = 'none' }}
             >
-              <span style={{ fontFamily: 'var(--font-hand)', fontWeight: 600, fontSize: 17 }}>{s.name}</span>
-              <span style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: 11,
-                color: 'var(--ink-light)',
-                marginLeft: 6,
-              }}>
-                {s.level}%
-              </span>
-            </span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <span style={{ fontSize: 14, fontWeight: 500 }}>{s.name}</span>
+                <span style={{ fontSize: 12, color: 'var(--text-light)', fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>{s.level}%</span>
+              </div>
+              <div style={{ height: 3, background: 'var(--border)', borderRadius: 0 }}>
+                <div style={{
+                  width: `${s.level}%`,
+                  height: '100%',
+                  background: 'var(--red)',
+                  transition: 'width 0.6s',
+                }} />
+              </div>
+            </div>
           ))}
-        </div>
-
-        {/* Decorative divider */}
-        <div style={{
-          marginTop: 20,
-          textAlign: 'center',
-          fontFamily: 'var(--font-hand)',
-          fontSize: 18,
-          color: 'var(--ink-light)',
-        }}>
-          ~ * ~ * ~ * ~ * ~
         </div>
       </div>
     </section>

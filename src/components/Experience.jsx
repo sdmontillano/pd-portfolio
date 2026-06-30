@@ -2,66 +2,46 @@ import { experience } from '../data/portfolioData'
 
 export default function Experience() {
   return (
-    <section id="experience">
+    <section id="experience" style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
       <div className="container">
-        <div style={{
-          fontFamily: 'var(--font-marker)',
-          fontSize: 14,
-          color: 'var(--red)',
-          marginBottom: 4,
-          letterSpacing: 2,
-        }}>
-          PAGE 03
+        <div className="section-label">Experience</div>
+        <div className="vermillion-bar" />
+        <div className="section-title">
+          Work <span>&amp; Internship</span>
         </div>
 
-        <h2 style={{
-          fontFamily: 'var(--font-marker)',
-          fontSize: 28,
-          margin: '0 0 20px',
-        }}>
-          EXPERIENCE
-        </h2>
-
         {experience.map((exp, i) => (
-          <div key={i} className="receipt rot-2" style={{ marginBottom: 16 }}>
-            <div style={{ textAlign: 'center', marginBottom: 8 }}>
-              <span className="stamp" style={{ fontSize: 11, transform: 'none' }}>EMPLOYMENT RECORD</span>
+          <div key={i} style={{ display: 'grid', gridTemplateColumns: '140px 1fr', gap: 32, marginBottom: 24 }}>
+            <div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--red)' }}>{exp.period}</div>
+              <div style={{ fontSize: 12, color: 'var(--text-light)', marginTop: 4 }}>{exp.duration}</div>
             </div>
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
-              <div>
-                <div style={{ fontFamily: 'var(--font-marker)', fontSize: 18 }}>{exp.role}</div>
-                <div style={{ fontFamily: 'var(--font-hand)', fontSize: 18, color: 'var(--blue)' }}>
-                  {exp.company}
-                </div>
+            <div style={{ position: 'relative', paddingLeft: 24, borderLeft: '2px solid var(--border)' }}>
+              <div style={{
+                position: 'absolute',
+                left: -5,
+                top: 6,
+                width: 8,
+                height: 8,
+                background: 'var(--red)',
+                borderRadius: '50%',
+              }} />
+              <div style={{ fontSize: 17, fontWeight: 600 }}>{exp.role}</div>
+              <div style={{ fontSize: 14, color: 'var(--text-light)', marginTop: 2 }}>{exp.company}</div>
+              <div style={{ marginTop: 10 }}>
+                {exp.highlights.map((h, j) => (
+                  <div key={j} style={{
+                    fontSize: 14,
+                    color: 'var(--text-light)',
+                    paddingLeft: 16,
+                    position: 'relative',
+                    marginBottom: 4,
+                  }}>
+                    <span style={{ position: 'absolute', left: 0, color: 'var(--red)' }}>&mdash;</span>
+                    {h}
+                  </div>
+                ))}
               </div>
-              <div style={{ textAlign: 'right', fontFamily: 'var(--font-hand)', fontSize: 16, color: 'var(--ink-light)' }}>
-                <div>{exp.period}</div>
-                <div>{exp.duration}</div>
-              </div>
-            </div>
-
-            <div style={{
-              marginTop: 12,
-              paddingTop: 12,
-              borderTop: '1px dashed var(--ink-light)',
-            }}>
-              {exp.highlights.map((h, j) => (
-                <div key={j} style={{
-                  fontFamily: 'var(--font-hand)',
-                  fontSize: 17,
-                  marginBottom: 4,
-                  paddingLeft: 16,
-                  position: 'relative',
-                }}>
-                  <span style={{ position: 'absolute', left: 0, color: 'var(--red)' }}>&gt;</span>
-                  {h}
-                </div>
-              ))}
-            </div>
-
-            <div style={{ textAlign: 'center', marginTop: 12, fontFamily: 'var(--font-body)', fontSize: 11, color: 'var(--ink-light)' }}>
-              * receipt generated from LGU Manolo Fortich *
             </div>
           </div>
         ))}

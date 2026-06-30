@@ -2,8 +2,15 @@ import { useState, useEffect } from 'react'
 import { navLinks } from '../data/portfolioData'
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false)
   const [active, setActive] = useState('')
   const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -28,89 +35,90 @@ export default function Navbar() {
       left: 0,
       right: 0,
       zIndex: 100,
-      padding: '8px 0',
-      background: 'var(--paper)',
-      borderBottom: '2px solid var(--ink)',
+      padding: scrolled ? '10px 0' : '16px 0',
+      background: scrolled ? 'rgba(250,248,245,0.92)' : 'transparent',
+      borderBottom: scrolled ? '1px solid var(--border)' : 'none',
+      backdropFilter: scrolled ? 'blur(8px)' : 'none',
+      transition: 'all 0.3s',
     }}>
-      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <a href="#hero" style={{
-          fontFamily: 'var(--font-marker)',
-          fontSize: 20,
-          color: 'var(--red)',
+          fontWeight: 700,
+          fontSize: 18,
+          color: 'var(--text)',
           textDecoration: 'none',
+          letterSpacing: -0.5,
         }}>
-          GD<span style={{ color: 'var(--ink)' }}>.</span>luna
+          GL<span style={{ color: 'var(--red)' }}>.</span>
         </a>
 
-        <button
-          onClick={() => setOpen(!open)}
-          style={{
-            display: 'none',
-            background: 'none',
-            border: '2px solid var(--ink)',
-            padding: '4px 12px',
-            fontFamily: 'var(--font-hand)',
-            fontSize: 18,
-            cursor: 'pointer',
-            color: 'var(--ink)',
-          }}
-          className="mobile-btn"
-        >
-          {open ? '[X]' : '[=]'}
-        </button>
-
-        <div className="desktop-nav" style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-          {navLinks.map(({ label, href }) => (
-            <a
-              key={href}
-              href={href}
-              style={{
-                padding: '4px 10px',
-                fontFamily: 'var(--font-hand)',
-                fontSize: 18,
-                color: active === href.slice(1) ? 'var(--red)' : 'var(--ink)',
-                textDecoration: active === href.slice(1) ? 'underline wavy var(--red)' : 'none',
-                textUnderlineOffset: 4,
-                background: active === href.slice(1) ? 'rgba(204,51,68,0.05)' : 'transparent',
-                transition: 'all 0.15s',
-              }}
-            >
-              [{label}]
-            </a>
-          ))}
-        </div>
-
-        {open && (
-          <div style={{
-            position: 'fixed',
-            top: 50,
-            left: 0,
-            right: 0,
-            background: 'var(--paper)',
-            borderBottom: '2px solid var(--ink)',
-            padding: 16,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 8,
-          }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          <div className="desktop-links" style={{ display: 'flex', gap: 2 }}>
             {navLinks.map(({ label, href }) => (
               <a
                 key={href}
                 href={href}
-                onClick={() => setOpen(false)}
                 style={{
-                  fontFamily: 'var(--font-hand)',
-                  fontSize: 20,
-                  color: 'var(--ink)',
+                  padding: '6px 14px',
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: active === href.slice(1) ? 'var(--red)' : 'var(--text-light)',
                   textDecoration: 'none',
+                  borderBottom: active === href.slice(1) ? '2px solid var(--red)' : '2px solid transparent',
+                  transition: 'all 0.2s',
                 }}
+                onMouseEnter={e => { if (active !== href.slice(1)) e.currentTarget.style.color = 'var(--text)' }}
+                onMouseLeave={e => { if (active !== href.slice(1)) e.currentTarget.style.color = 'var(--text-light)' }}
               >
-                [{label}]
+                {label}
               </a>
             ))}
           </div>
-        )}
+          <button
+            className="mobile-btn"
+            onClick={() => setOpen(!open)}
+            style={{
+              background: 'none',
+              border: '1px solid var(--border)',
+              padding: '4px 10px',
+              fontSize: 14,
+              cursor: 'pointer',
+              color: 'var(--text)',
+              display: 'none',
+            }}
+          >
+            {open ? '✕' : '☰'}
+          </button>
+        </div>
       </div>
+
+      {open && (
+        <div style={{
+          background: 'var(--bg)',
+          borderBottom: '1px solid var(--border)',
+          padding: '12px 20px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 8,
+        }}>
+          {navLinks.map(({ label, href }) => (
+            <a
+              key={href}
+              href={href}
+              onClick={() => setOpen(false)}
+              style={{
+                padding: '8px 0',
+                fontSize: 14,
+                color: 'var(--text)',
+                textDecoration: 'none',
+                borderBottom: '1px solid var(--border)',
+              }}
+            >
+              {label}
+            </a>
+          ))}
+        </div>
+      )}
     </nav>
   )
 }

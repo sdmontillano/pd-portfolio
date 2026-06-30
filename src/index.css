@@ -1,18 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f5f0e8;
-  --paper-dark: #e8e0d0;
-  --ink: #1a1a1a;
-  --ink-light: #555;
-  --red: #cc3344;
-  --blue: #2a6496;
-  --green: #3a7d44;
-  --tape: rgba(255, 255, 200, 0.75);
-  --stamp: #cc3344;
-  --font-hand: 'Caveat', cursive;
-  --font-marker: 'Permanent Marker', cursive;
-  --font-body: 'Inter', system-ui, sans-serif;
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --text: #1a1a1a;
+  --text-light: #888;
+  --red: #c62828;
+  --red-light: rgba(198,40,40,0.06);
+  --indigo: #1a237e;
+  --border: #e0d8cc;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Noto Serif', Georgia, serif;
 }
 
 * { box-sizing: border-box; }
@@ -24,13 +22,11 @@ html {
 
 body {
   margin: 0;
-  font-family: var(--font-body);
-  background: var(--paper);
-  color: var(--ink);
-  line-height: 1.6;
-  background-image:
-    repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(0,0,0,0.02) 40px, rgba(0,0,0,0.02) 41px),
-    repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0,0,0,0.02) 40px, rgba(0,0,0,0.02) 41px);
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
@@ -38,138 +34,89 @@ body {
   color: white;
 }
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--paper); }
-::-webkit-scrollbar-thumb { background: var(--ink-light); }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); }
 
-section { scroll-margin-top: 80px; padding: 40px 0; }
+section { scroll-margin-top: 70px; padding: 60px 0; }
 
-.container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+.container { max-width: 1000px; margin: 0 auto; padding: 0 32px; }
 
-/* Zine utilities */
-.rot-1 { transform: rotate(-1deg); }
-.rot-2 { transform: rotate(2deg); }
-.rot-3 { transform: rotate(-1.5deg); }
-.rot-4 { transform: rotate(1.8deg); }
-
-.tape {
-  position: absolute;
-  width: 60px;
-  height: 20px;
-  background: var(--tape);
-  opacity: 0.8;
-  transform: rotate(-3deg);
-  z-index: 2;
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 8px;
 }
 
-.stamp {
-  display: inline-block;
-  border: 2px solid var(--stamp);
-  color: var(--stamp);
-  padding: 4px 12px;
-  font-family: var(--font-marker);
-  font-size: 13px;
+.section-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 32px;
+  line-height: 1.2;
+}
+
+.section-title span {
+  color: var(--text-light);
+  font-weight: 300;
+}
+
+.vermillion-bar {
+  width: 40px;
+  height: 3px;
+  background: var(--red);
+  margin-bottom: 16px;
+}
+
+.hanko {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--red);
+  color: var(--red);
+  font-size: 11px;
+  font-weight: 700;
   letter-spacing: 1px;
-  transform: rotate(-2deg);
-}
-
-.stamp-blue {
-  border-color: var(--blue);
-  color: var(--blue);
-}
-
-.cutout {
-  display: inline-block;
-  background: white;
-  box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
-  padding: 2px 8px;
-  transform: rotate(-1deg);
-}
-
-.scribble {
-  text-decoration: underline;
-  text-decoration-style: wavy;
-  text-decoration-color: var(--red);
-  text-underline-offset: 4px;
+  transform: rotate(-5deg);
 }
 
 .tag {
   display: inline-block;
-  background: white;
-  border: 1px solid var(--ink-light);
-  padding: 4px 12px;
-  font-size: 14px;
-  font-family: var(--font-body);
-  box-shadow: 1px 1px 0 rgba(0,0,0,0.1);
+  padding: 4px 14px;
+  border: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text-light);
+  transition: all 0.2s;
 }
 
 .tag:hover {
-  background: var(--red);
-  color: white;
   border-color: var(--red);
-}
-
-.polaroid {
-  background: white;
-  padding: 10px 10px 40px 10px;
-  box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
-}
-
-.receipt {
-  border: 1px dashed var(--ink-light);
-  padding: 16px;
-  background: white;
-  position: relative;
-  font-size: 14px;
-}
-
-.receipt::before {
-  content: '--- cut here ---';
-  display: block;
-  text-align: center;
-  font-size: 11px;
-  color: var(--ink-light);
-  font-family: var(--font-body);
-  letter-spacing: 2px;
-  margin-bottom: 12px;
-  border-bottom: 1px dashed var(--ink-light);
-  padding-bottom: 8px;
-}
-
-.note-card {
-  background: white;
-  padding: 20px;
-  border: 1px solid var(--ink-light);
-  position: relative;
-}
-
-.note-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  border-style: solid;
-  border-width: 0 20px 20px 0;
-  border-color: transparent var(--paper) transparent transparent;
-}
-
-@keyframes stampIn {
-  0% { transform: scale(0) rotate(-45deg); opacity: 0; }
-  60% { transform: scale(1.2) rotate(5deg); }
-  100% { transform: scale(1) rotate(-2deg); opacity: 1; }
-}
-
-.stamp-animate {
-  animation: stampIn 0.4s ease forwards;
+  color: var(--red);
+  background: var(--red-light);
 }
 
 @media (max-width: 768px) {
-  .container { padding: 0 16px; }
-  .desktop-nav { display: none !important; }
+  .container { padding: 0 20px; }
+  section { padding: 40px 0; }
+  .section-title { font-size: 26px; }
+  .desktop-links { display: none !important; }
   .mobile-btn { display: flex !important; }
 }
 
 @media (min-width: 769px) {
-  .desktop-nav { display: flex !important; }
+  .desktop-links { display: flex !important; }
   .mobile-btn { display: none !important; }
+}
+
+@media (max-width: 700px) {
+  #hero > div > div { grid-template-columns: 1fr !important; gap: 32px !important; }
+  #hero h1 { font-size: 32px !important; }
+  #about > div > div:nth-child(3) { grid-template-columns: 1fr !important; }
+  #experience > div > div:nth-child(3) > div { grid-template-columns: 1fr !important; gap: 16px !important; }
+  #achievements > div > div:nth-child(3) { grid-template-columns: 1fr !important; }
+  #contact > div > div:nth-child(4) { grid-template-columns: 1fr !important; }
 }

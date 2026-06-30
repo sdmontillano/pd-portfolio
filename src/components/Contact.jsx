@@ -2,112 +2,80 @@ import { personalInfo } from '../data/portfolioData'
 
 export default function Contact() {
   return (
-    <section id="contact">
+    <section id="contact" style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
       <div className="container">
-        <div style={{
-          fontFamily: 'var(--font-marker)',
-          fontSize: 14,
-          color: 'var(--red)',
-          marginBottom: 4,
-          letterSpacing: 2,
-        }}>
-          PAGE 07
+        <div className="section-label">Contact</div>
+        <div className="vermillion-bar" />
+        <div className="section-title">
+          Get in <span>Touch</span>
         </div>
 
-        <h2 style={{
-          fontFamily: 'var(--font-marker)',
-          fontSize: 28,
-          margin: '0 0 20px',
-        }}>
-          GET IN TOUCH
-        </h2>
+        <div style={{ textAlign: 'center', maxWidth: 500, margin: '0 auto 32px' }}>
+          <p style={{ fontSize: 14, color: 'var(--text-light)', lineHeight: 1.8 }}>
+            Have a project in mind or just want to connect? I&apos;m always open to discussing new opportunities and collaborations.
+          </p>
+        </div>
 
-        <div style={{
-          background: 'white',
-          border: '3px solid var(--ink)',
-          padding: '32px 24px',
-          boxShadow: '6px 6px 0 var(--ink)',
-          position: 'relative',
-        }}>
-          <div className="tape" style={{ top: -10, left: '30%', transform: 'rotate(-4deg)' }} />
-          <div className="tape" style={{ top: -10, right: '30%', transform: 'rotate(2deg)' }} />
-
-          <div style={{
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 32 }}>
+          <a href={`mailto:${personalInfo.email}`} style={{
+            padding: '20px 16px',
+            border: '1px solid var(--border)',
             textAlign: 'center',
-            fontFamily: 'var(--font-hand)',
-            fontSize: 22,
-            color: 'var(--ink-light)',
-            marginBottom: 20,
-          }}>
-            ✦ send a message or just say hi ✦
-          </div>
-
+            textDecoration: 'none',
+            color: 'var(--text)',
+            transition: 'all 0.2s',
+            background: 'var(--bg)',
+          }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--red)'; e.currentTarget.style.background = 'var(--red-light)' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'var(--bg)' }}
+          >
+            <div style={{ fontSize: 12, color: 'var(--text-light)', marginBottom: 4, letterSpacing: 1, textTransform: 'uppercase' }}>Email</div>
+            <div style={{ fontSize: 14, fontWeight: 500 }}>{personalInfo.email}</div>
+          </a>
+          <a href={`tel:${personalInfo.phone}`} style={{
+            padding: '20px 16px',
+            border: '1px solid var(--border)',
+            textAlign: 'center',
+            textDecoration: 'none',
+            color: 'var(--text)',
+            transition: 'all 0.2s',
+            background: 'var(--bg)',
+          }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--red)'; e.currentTarget.style.background = 'var(--red-light)' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.background = 'var(--bg)' }}
+          >
+            <div style={{ fontSize: 12, color: 'var(--text-light)', marginBottom: 4, letterSpacing: 1, textTransform: 'uppercase' }}>Phone</div>
+            <div style={{ fontSize: 14, fontWeight: 500 }}>{personalInfo.phone}</div>
+          </a>
           <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: 16,
-            marginBottom: 24,
+            padding: '20px 16px',
+            border: '1px solid var(--border)',
+            textAlign: 'center',
+            color: 'var(--text)',
+            background: 'var(--bg)',
           }}>
-            {[
-              { label: 'Email', value: personalInfo.email, href: `mailto:${personalInfo.email}`, color: 'var(--blue)' },
-              { label: 'Phone', value: personalInfo.phone, href: `tel:${personalInfo.phone}`, color: 'var(--green)' },
-              { label: 'Location', value: personalInfo.location, color: 'var(--red)' },
-            ].map((item) => (
-              <div key={item.label} className="cutout" style={{
-                padding: '14px 12px',
-                textAlign: 'center',
-                border: `2px solid ${item.color}`,
-                transform: 'none',
-                boxShadow: `3px 3px 0 ${item.color}20`,
-              }}>
-                <div style={{
-                  fontFamily: 'var(--font-marker)',
-                  fontSize: 13,
-                  color: item.color,
-                  letterSpacing: 1,
-                  marginBottom: 4,
-                }}>
-                  {item.label}
-                </div>
-                {item.href ? (
-                  <a href={item.href} style={{
-                    fontFamily: 'var(--font-hand)',
-                    fontSize: 18,
-                    color: 'var(--ink)',
-                    textDecoration: 'underline wavy var(--red)',
-                    textUnderlineOffset: 3,
-                  }}>
-                    {item.value}
-                  </a>
-                ) : (
-                  <div style={{ fontFamily: 'var(--font-hand)', fontSize: 18 }}>
-                    {item.value}
-                  </div>
-                )}
-              </div>
-            ))}
+            <div style={{ fontSize: 12, color: 'var(--text-light)', marginBottom: 4, letterSpacing: 1, textTransform: 'uppercase' }}>Location</div>
+            <div style={{ fontSize: 14, fontWeight: 500 }}>{personalInfo.location}</div>
           </div>
+        </div>
 
-          {/* Direct mail CTA */}
-          <div style={{ textAlign: 'center' }}>
-            <a href={`mailto:${personalInfo.email}`} style={{
-              display: 'inline-block',
-              padding: '14px 32px',
-              background: 'var(--red)',
-              color: 'white',
-              fontFamily: 'var(--font-marker)',
-              fontSize: 18,
-              textDecoration: 'none',
-              border: '2px solid var(--ink)',
-              boxShadow: '4px 4px 0 var(--ink)',
-              transition: 'all 0.15s',
-            }}
-              onMouseEnter={e => { e.currentTarget.style.background = 'var(--ink)'; e.currentTarget.style.boxShadow = '4px 4px 0 var(--red)' }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'var(--red)'; e.currentTarget.style.boxShadow = '4px 4px 0 var(--ink)' }}
-            >
-              SEND A LETTER ✉
-            </a>
-          </div>
+        <div style={{ textAlign: 'center' }}>
+          <a href={`mailto:${personalInfo.email}`} style={{
+            display: 'inline-block',
+            padding: '14px 40px',
+            background: 'var(--text)',
+            color: 'white',
+            textDecoration: 'none',
+            fontSize: 13,
+            fontWeight: 600,
+            letterSpacing: 2,
+            transition: 'all 0.2s',
+          }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--red)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'var(--text)' }}
+          >
+            SEND MESSAGE
+          </a>
         </div>
       </div>
     </section>

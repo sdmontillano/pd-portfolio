@@ -4,88 +4,50 @@ export default function Achievements() {
   return (
     <section id="achievements">
       <div className="container">
-        <div style={{
-          fontFamily: 'var(--font-marker)',
-          fontSize: 14,
-          color: 'var(--red)',
-          marginBottom: 4,
-          letterSpacing: 2,
-        }}>
-          PAGE 06
+        <div className="section-label">Credentials</div>
+        <div className="vermillion-bar" />
+        <div className="section-title">
+          Certifications <span>&amp; Services</span>
         </div>
 
-        <h2 style={{
-          fontFamily: 'var(--font-marker)',
-          fontSize: 28,
-          margin: '0 0 20px',
-        }}>
-          CERTIFICATIONS
-        </h2>
-
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 12,
-          padding: '16px 12px',
-          background: 'white',
-          border: '2px solid var(--ink)',
-          boxShadow: '4px 4px 0 var(--ink)',
-          position: 'relative',
-        }}>
-          <div className="tape" style={{ top: -8, left: '40%' }} />
-
-          {certifications.map((cert) => (
-            <span key={cert.name} className="tag rot-1" style={{
-              padding: '8px 14px',
-              borderStyle: 'solid',
-              borderWidth: 2,
-              fontFamily: 'var(--font-hand)',
-              fontSize: 17,
-            }}>
-              <span className="stamp" style={{ fontSize: 10, marginRight: 6, transform: 'rotate(-3deg)', borderWidth: 1 }}>
-                CERT
-              </span>
-              {cert.name}
-              <span style={{ color: 'var(--ink-light)', fontSize: 13, marginLeft: 4 }}>— {cert.issuer} ({cert.year})</span>
-            </span>
-          ))}
-        </div>
-
-        <div style={{ marginTop: 32 }}>
-          <div style={{
-            fontFamily: 'var(--font-marker)',
-            fontSize: 14,
-            color: 'var(--blue)',
-            marginBottom: 12,
-            letterSpacing: 2,
-          }}>
-            SERVICES
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
+          <div>
+            <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 12px', color: 'var(--text-light)' }}>CERTIFICATIONS</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {certifications.map((cert) => (
+                <div key={cert.name} style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '10px 14px',
+                  border: '1px solid var(--border)',
+                  background: 'var(--surface)',
+                  fontSize: 13,
+                  gap: 12,
+                }}>
+                  <span style={{ flex: 1 }}>{cert.name}</span>
+                  <span style={{ color: 'var(--text-light)', fontSize: 12, whiteSpace: 'nowrap' }}>{cert.issuer}</span>
+                  <span style={{ color: 'var(--red)', fontWeight: 600, fontSize: 12, whiteSpace: 'nowrap' }}>{cert.year}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
-            {services.map((svc, i) => (
-              <div key={svc.name} className={`note-card ${i === 0 ? 'rot-1' : i === 1 ? 'rot-3' : 'rot-2'}`} style={{ position: 'relative' }}>
-                <div style={{
-                  fontFamily: 'var(--font-marker)',
-                  fontSize: 16,
-                  color: 'var(--red)',
-                  marginBottom: 6,
+          <div>
+            <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 12px', color: 'var(--text-light)' }}>SERVICES</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {services.map((svc) => (
+                <div key={svc.name} style={{
+                  padding: '14px 16px',
+                  border: '1px solid var(--border)',
+                  background: 'var(--surface)',
+                  borderLeft: '3px solid var(--red)',
                 }}>
-                  &gt; {svc.name}
+                  <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{svc.name}</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-light)' }}>{svc.desc}</div>
                 </div>
-                <p style={{
-                  fontFamily: 'var(--font-hand)',
-                  fontSize: 17,
-                  color: 'var(--ink-light)',
-                  margin: 0,
-                }}>
-                  {svc.desc}
-                </p>
-                <span className="stamp" style={{ position: 'absolute', bottom: 8, right: 8, fontSize: 9, transform: 'rotate(5deg)', opacity: 0.5 }}>
-                  AVAILABLE
-                </span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>

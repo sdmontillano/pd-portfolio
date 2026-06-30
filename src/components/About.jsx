@@ -2,54 +2,42 @@ import { summary, stats } from '../data/portfolioData'
 
 export default function About() {
   return (
-    <section id="about">
+    <section id="about" style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
       <div className="container">
-        <div style={{
-          fontFamily: 'var(--font-marker)',
-          fontSize: 14,
-          color: 'var(--red)',
-          marginBottom: 4,
-          letterSpacing: 2,
-        }}>
-          PAGE 01
+        <div className="section-label">About</div>
+        <div className="vermillion-bar" />
+        <div className="section-title">
+          Background <span>&amp; Profile</span>
         </div>
-        <div className="note-card rot-1" style={{ marginBottom: 24 }}>
-          <div className="tape" style={{ top: -8, left: '50%', transform: 'translateX(-50%) rotate(-2deg)' }} />
 
-          <h2 style={{
-            fontFamily: 'var(--font-marker)',
-            fontSize: 28,
-            margin: '0 0 12px',
-          }}>
-            ABOUT
-          </h2>
-
-          <p style={{
-            fontFamily: 'var(--font-hand)',
-            fontSize: 20,
-            lineHeight: 1.6,
-            margin: 0,
-            color: 'var(--ink)',
-          }}>
-            {summary}
-          </p>
-
-          <div style={{
-            marginTop: 16,
-            padding: '12px 16px',
-            background: 'rgba(42,100,150,0.05)',
-            borderLeft: '4px solid var(--blue)',
-          }}>
-            <div style={{ fontFamily: 'var(--font-marker)', fontSize: 14, color: 'var(--blue)', marginBottom: 8 }}>
-              QUICK STATS
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 }}>
+          <div>
+            <p style={{ fontSize: 15, color: 'var(--text-light)', lineHeight: 1.9, margin: 0 }}>
+              {summary}
+            </p>
+          </div>
+          <div>
+            <div style={{
+              fontFamily: 'var(--font-serif)',
+              fontSize: 20,
+              fontStyle: 'italic',
+              color: 'var(--text)',
+              lineHeight: 1.6,
+              padding: '16px 20px',
+              borderLeft: '3px solid var(--red)',
+              background: 'var(--red-light)',
+              marginBottom: 20,
+            }}>
+              &ldquo;Security-first mindset in every line of code.&rdquo;
             </div>
-            <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
               {stats.map((s) => (
-                <div key={s.label}>
-                  <span style={{ fontFamily: 'var(--font-marker)', fontSize: 22, color: 'var(--red)' }}>{s.value}</span>
-                  <span style={{ fontFamily: 'var(--font-hand)', fontSize: 16, color: 'var(--ink-light)', marginLeft: 4 }}>
-                    {s.unit}
-                  </span>
+                <div key={s.label} style={{
+                  padding: '12px 16px',
+                  border: '1px solid var(--border)',
+                }}>
+                  <div style={{ fontSize: 24, fontWeight: 700, color: 'var(--red)', lineHeight: 1 }}>{s.value}</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-light)', marginTop: 2 }}>{s.unit}</div>
                 </div>
               ))}
             </div>

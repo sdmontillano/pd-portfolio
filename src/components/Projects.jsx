@@ -2,80 +2,57 @@ import { projects } from '../data/portfolioData'
 
 export default function Projects() {
   return (
-    <section id="projects">
+    <section id="projects" style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
       <div className="container">
-        <div style={{
-          fontFamily: 'var(--font-marker)',
-          fontSize: 14,
-          color: 'var(--red)',
-          marginBottom: 4,
-          letterSpacing: 2,
-        }}>
-          PAGE 05
+        <div className="section-label">Projects</div>
+        <div className="vermillion-bar" />
+        <div className="section-title">
+          Featured <span>Work</span>
         </div>
 
-        <h2 style={{
-          fontFamily: 'var(--font-marker)',
-          fontSize: 28,
-          margin: '0 0 20px',
-        }}>
-          PROJECTS
-        </h2>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: 24,
-        }}>
-          {projects.map((p, i) => (
-            <div
-              key={p.title}
-              className={`polaroid ${i === 0 ? 'rot-2' : 'rot-3'}`}
-              style={{ position: 'relative' }}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+          {projects.map((p) => (
+            <div key={p.title} style={{
+              border: '1px solid var(--border)',
+              background: 'var(--bg)',
+              transition: 'all 0.2s',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--red)'; e.currentTarget.style.transform = 'translateY(-4px)' }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'none' }}
             >
-              <div className="tape" style={{ top: -6, left: '50%', transform: 'translateX(-50%) rotate(-1deg)' }} />
-
-              {/* Photo placeholder */}
               <div style={{
-                height: 160,
-                background: `linear-gradient(135deg, rgba(204,51,68,0.08), rgba(42,100,150,0.08))`,
-                border: '1px solid var(--paper-dark)',
+                height: 140,
+                background: 'var(--red-light)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontFamily: 'var(--font-marker)',
-                fontSize: 12,
-                color: 'var(--ink-light)',
+                borderBottom: '1px solid var(--border)',
+                position: 'relative',
+                overflow: 'hidden',
               }}>
-                [ {p.title.substring(0, 16)}... ]
-              </div>
-
-              {/* Caption */}
-              <div style={{ marginTop: 8 }}>
                 <div style={{
-                  fontFamily: 'var(--font-marker)',
-                  fontSize: 15,
-                  color: 'var(--ink)',
+                  position: 'absolute',
+                  top: 12,
+                  left: 12,
+                  fontSize: 11,
+                  fontWeight: 600,
+                  color: 'var(--red)',
+                  background: 'var(--surface)',
+                  padding: '2px 10px',
+                  border: '1px solid var(--border)',
                 }}>
-                  {p.title}
-                </div>
-                <span className="stamp" style={{ fontSize: 10, padding: '2px 8px', marginTop: 4, display: 'inline-block' }}>
                   {p.role}
-                </span>
-                <p style={{
-                  fontFamily: 'var(--font-hand)',
-                  fontSize: 16,
-                  color: 'var(--ink-light)',
-                  margin: '6px 0',
-                  lineHeight: 1.4,
-                }}>
+                </div>
+                <span style={{ fontSize: 28, fontWeight: 300, color: 'var(--text-light)' }}>{p.title.charAt(0)}</span>
+              </div>
+              <div style={{ padding: 16 }}>
+                <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 8 }}>{p.title}</div>
+                <p style={{ fontSize: 13, color: 'var(--text-light)', lineHeight: 1.7, margin: '0 0 12px' }}>
                   {p.description}
                 </p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                   {p.tech.map((t) => (
-                    <span key={t} className="cutout" style={{ fontSize: 11, padding: '2px 6px', transform: 'none' }}>
-                      {t}
-                    </span>
+                    <span key={t} className="tag" style={{ fontSize: 11, padding: '2px 8px' }}>{t}</span>
                   ))}
                 </div>
               </div>
