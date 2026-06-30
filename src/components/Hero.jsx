@@ -1,5 +1,46 @@
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { personalInfo } from '../data/portfolioData'
+
+const roles = personalInfo.roles || ['Full-Stack Developer', 'Ethical Hacker']
+
+function Typewriter({ words }) {
+  const [index, setIndex] = useState(0)
+  const [char, setChar] = useState(0)
+  const [deleting, setDeleting] = useState(false)
+
+  useEffect(() => {
+    const word = words[index]
+    const timeout = setTimeout(() => {
+      if (!deleting) {
+        if (char < word.length) {
+          setChar(c => c + 1)
+        } else {
+          setTimeout(() => setDeleting(true), 1500)
+        }
+      } else {
+        if (char > 0) {
+          setChar(c => c - 1)
+        } else {
+          setDeleting(false)
+          setIndex(i => (i + 1) % words.length)
+        }
+      }
+    }, deleting ? 40 : 80)
+    return () => clearTimeout(timeout)
+  }, [char, deleting, index, words])
+
+  return (
+    <span>
+      {words[index].slice(0, char)}
+      <motion.span
+        animate={{ opacity: [1, 0] }}
+        transition={{ duration: 0.5, repeat: Infinity, repeatType: 'reverse' }}
+        style={{ color: 'var(--red)' }}
+      >|</motion.span>
+    </span>
+  )
+}
 
 const stagger = {
   initial: { opacity: 0 },
@@ -19,8 +60,20 @@ export default function Hero() {
       alignItems: 'center',
       paddingTop: 60,
       overflow: 'hidden',
+      position: 'relative',
     }}>
-      <div className="container" style={{ width: '100%' }}>
+      <motion.div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          opacity: 0.04,
+          background: 'radial-gradient(ellipse at 20% 50%, var(--red) 0%, transparent 60%), radial-gradient(ellipse at 80% 50%, var(--indigo) 0%, transparent 60%)',
+        }}
+        animate={{ scale: [1, 1.05, 1] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+      />
+
+      <div className="container" style={{ width: '100%', position: 'relative', zIndex: 1 }}>
         <motion.div
           className="hero-grid"
           style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}
@@ -29,8 +82,35 @@ export default function Hero() {
           animate="animate"
         >
           <motion.div variants={fadeUp}>
-            <div className="vermillion-bar" />
-            <motion.div variants={fadeUp} style={{ fontFamily: 'var(--font-serif)', fontSize: 14, color: 'var(--text-light)', fontStyle: 'italic', marginBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+              <div className="vermillion-bar" />
+              {personalInfo.openToWork && (
+                <motion.span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    padding: '4px 12px',
+                    border: '1px solid #16a34a',
+                    color: '#16a34a',
+                    fontSize: 11,
+                    fontWeight: 600,
+                    letterSpacing: 0.5,
+                  }}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.8 }}
+                >
+                  <motion.span
+                    style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a', display: 'inline-block' }}
+                    animate={{ opacity: [1, 0.3, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  OPEN TO WORK
+                </motion.span>
+              )}
+            </div>
+            <motion.div variants={fadeUp} style={{ fontFamily: 'var(--font-serif)', fontSize: 14, color: 'var(--text-light)', fontStyle: 'italic', marginBottom: 8 }}>
               Introducing
             </motion.div>
             <motion.h1 variants={fadeUp} style={{
@@ -43,19 +123,19 @@ export default function Hero() {
               {personalInfo.name}
             </motion.h1>
             <motion.div variants={fadeUp} style={{
-              fontSize: 18,
-              fontWeight: 400,
-              color: 'var(--text-light)',
+              fontSize: 20,
+              fontWeight: 500,
               marginTop: 12,
               lineHeight: 1.5,
-              maxWidth: 400,
+              maxWidth: 420,
+              color: 'var(--text)',
             }}>
-              <span style={{ color: 'var(--red)', fontWeight: 600 }}>IT Graduate</span> &middot; Full-Stack Developer &middot; Ethical Hacker
+              <Typewriter words={roles} />
             </motion.div>
             <motion.p variants={fadeUp} style={{
               fontSize: 14,
               color: 'var(--text-light)',
-              marginTop: 16,
+              marginTop: 12,
               lineHeight: 1.8,
               maxWidth: 360,
             }}>
@@ -76,7 +156,25 @@ export default function Hero() {
                 whileHover={{ background: 'var(--red)', scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
               >
-                CONTACT
+                HIRE ME
+              </motion.a>
+              <motion.a
+                href={personalInfo.resume}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  padding: '12px 28px',
+                  border: '1px solid var(--border)',
+                  color: 'var(--text)',
+                  textDecoration: 'none',
+                  fontSize: 13,
+                  fontWeight: 500,
+                  letterSpacing: 1,
+                }}
+                whileHover={{ borderColor: 'var(--red)', color: 'var(--red)', scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                RESUME
               </motion.a>
               <motion.a
                 href={`tel:${personalInfo.phone}`}
@@ -116,9 +214,11 @@ export default function Hero() {
               <div>{personalInfo.email}</div>
               <div>{personalInfo.phone}</div>
             </motion.div>
-            <motion.div variants={fadeUp} style={{ display: 'flex', gap: 12 }}>
+            <motion.div variants={fadeUp} style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
               <span className="tag" style={{ fontSize: 11 }}>Cisco Ethical Hacker</span>
               <span className="tag" style={{ fontSize: 11 }}>Kali Linux</span>
+              <span className="tag" style={{ fontSize: 11 }}>React</span>
+              <span className="tag" style={{ fontSize: 11 }}>Python</span>
             </motion.div>
           </motion.div>
         </motion.div>

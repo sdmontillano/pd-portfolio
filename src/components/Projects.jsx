@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { FiExternalLink, FiGithub } from 'react-icons/fi'
 import { projects } from '../data/portfolioData'
 
 const container = {
@@ -29,7 +30,7 @@ export default function Projects() {
         </motion.div>
 
         <motion.div
-          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}
           variants={container}
           initial="initial"
           whileInView="whileInView"
@@ -40,7 +41,7 @@ export default function Projects() {
               key={p.title}
               variants={card}
               style={{ border: '1px solid var(--border)', background: 'var(--bg)', cursor: 'default' }}
-              whileHover={{ borderColor: 'var(--red)', y: -6, boxShadow: '0 8px 24px rgba(0,0,0,0.06)' }}
+              whileHover={{ borderColor: 'var(--red)', y: -6, boxShadow: '0 12px 32px rgba(0,0,0,0.08)' }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}
             >
               <div style={{
@@ -69,17 +70,53 @@ export default function Projects() {
                 >
                   {p.role}
                 </motion.div>
-                <span style={{ fontSize: 28, fontWeight: 300, color: 'var(--text-light)' }}>{p.title.charAt(0)}</span>
+                <span style={{ fontSize: 32, fontWeight: 300, color: 'var(--text-light)' }}>{p.title.charAt(0)}</span>
               </div>
               <div style={{ padding: 16 }}>
                 <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 8 }}>{p.title}</div>
                 <p style={{ fontSize: 13, color: 'var(--text-light)', lineHeight: 1.7, margin: '0 0 12px' }}>
                   {p.description}
                 </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 14 }}>
                   {p.tech.map((t) => (
                     <span key={t} className="tag" style={{ fontSize: 11, padding: '2px 8px' }}>{t}</span>
                   ))}
+                </div>
+                <div style={{ display: 'flex', gap: 10, borderTop: '1px solid var(--border)', paddingTop: 12 }}>
+                  <motion.a
+                    href={p.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 4,
+                      fontSize: 12,
+                      fontWeight: 500,
+                      color: 'var(--text-light)',
+                      textDecoration: 'none',
+                    }}
+                    whileHover={{ color: 'var(--red)' }}
+                  >
+                    <FiExternalLink size={14} /> Live Demo
+                  </motion.a>
+                  <motion.a
+                    href={p.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 4,
+                      fontSize: 12,
+                      fontWeight: 500,
+                      color: 'var(--text-light)',
+                      textDecoration: 'none',
+                    }}
+                    whileHover={{ color: 'var(--red)' }}
+                  >
+                    <FiGithub size={14} /> Source
+                  </motion.a>
                 </div>
               </div>
             </motion.div>

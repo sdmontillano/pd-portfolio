@@ -2,10 +2,13 @@ export const personalInfo = {
   name: 'Godwin D. Luna-an',
   initials: 'GL',
   title: 'IT Graduate / Full-Stack Developer / Ethical Hacker',
+  roles: ['Full-Stack Developer', 'Ethical Hacker', 'UI Architect', 'Problem Solver'],
   location: 'PH',
   email: 'godwin.lunaan.10@gmail.com',
   phone: '+63 961 724 9313',
   tagline: 'Secure code. Clean architecture. Disciplined delivery.',
+  resume: '#',
+  openToWork: true,
 }
 
 export const summary = `IT graduate with deep expertise in Python, React, Laravel, and TypeScript. Cisco Ethical Hacking certified with hands-on Kali Linux experience. I build production-ready systems that are secure by design, performant by default, and maintainable by discipline.`
@@ -59,12 +62,16 @@ export const projects = [
     role: 'Lead Developer',
     description: 'Retail platform with real-time inventory, built on Frappe/ERPNext with Vue.js frontend, deployed on DigitalOcean.',
     tech: ['Frappe', 'ERPNext', 'Vue.js', 'PostgreSQL', 'DigitalOcean'],
+    demo: '#',
+    github: '#',
   },
   {
     title: 'Youth Profiling System',
     role: 'Full-Stack Developer',
     description: 'Production profiling system for 22 barangays under LYDO. PHP/Laravel backend with PostgreSQL, hosted on Hostinger.',
     tech: ['PHP', 'Laravel', 'PostgreSQL', 'Hostinger'],
+    demo: '#',
+    github: '#',
   },
 ]
 
