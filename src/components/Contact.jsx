@@ -16,7 +16,7 @@ export default function Contact() {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 32 }}>
+        <div className="contact-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 32 }}>
           <a href={`mailto:${personalInfo.email}`} style={{
             padding: '20px 16px',
             border: '1px solid var(--border)',

@@ -11,7 +11,7 @@ export default function Education() {
         </div>
 
         {education.map((edu) => (
-          <div key={edu.school} style={{
+          <div key={edu.school} className="edu-grid" style={{
             display: 'grid',
             gridTemplateColumns: '100px 1fr',
             gap: 24,

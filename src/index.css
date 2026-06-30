@@ -113,10 +113,10 @@ section { scroll-margin-top: 70px; padding: 60px 0; }
 }
 
 @media (max-width: 700px) {
-  #hero > div > div { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .hero-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
   #hero h1 { font-size: 32px !important; }
-  #about > div > div:nth-child(3) { grid-template-columns: 1fr !important; }
-  #experience > div > div:nth-child(3) > div { grid-template-columns: 1fr !important; gap: 16px !important; }
-  #achievements > div > div:nth-child(3) { grid-template-columns: 1fr !important; }
-  #contact > div > div:nth-child(4) { grid-template-columns: 1fr !important; }
+  .split-grid { grid-template-columns: 1fr !important; }
+  .exp-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .edu-grid { grid-template-columns: 1fr !important; }
+  .contact-grid { grid-template-columns: 1fr !important; }
 }

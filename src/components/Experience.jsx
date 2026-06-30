@@ -11,7 +11,7 @@ export default function Experience() {
         </div>
 
         {experience.map((exp, i) => (
-          <div key={i} style={{ display: 'grid', gridTemplateColumns: '140px 1fr', gap: 32, marginBottom: 24 }}>
+          <div key={i} className="exp-grid" style={{ display: 'grid', gridTemplateColumns: '140px 1fr', gap: 32, marginBottom: 24 }}>
             <div>
               <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--red)' }}>{exp.period}</div>
               <div style={{ fontSize: 12, color: 'var(--text-light)', marginTop: 4 }}>{exp.duration}</div>

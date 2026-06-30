@@ -9,7 +9,7 @@ export default function Hero() {
       paddingTop: 60,
     }}>
       <div className="container" style={{ width: '100%' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
+        <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
           {/* Left */}
           <div>
             <div className="vermillion-bar" />

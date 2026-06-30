@@ -10,7 +10,7 @@ export default function Achievements() {
           Certifications <span>&amp; Services</span>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
+        <div className="split-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
           <div>
             <h3 style={{ fontSize: 14, fontWeight: 600, margin: '0 0 12px', color: 'var(--text-light)' }}>CERTIFICATIONS</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

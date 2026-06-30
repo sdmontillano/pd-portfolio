@@ -10,7 +10,7 @@ export default function About() {
           Background <span>&amp; Profile</span>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 }}>
+        <div className="split-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40 }}>
           <div>
             <p style={{ fontSize: 15, color: 'var(--text-light)', lineHeight: 1.9, margin: 0 }}>
               {summary}
