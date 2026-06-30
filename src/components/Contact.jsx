@@ -1,79 +1,184 @@
-import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 import { HiMail, HiPhone, HiLocationMarker } from 'react-icons/hi'
 import { personalInfo } from '../data/portfolioData'
 
+function useReveal(ref) {
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) el.classList.add('visible')
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [ref])
+}
+
+function Reveal({ children, style }) {
+  const ref = useRef(null)
+  useReveal(ref)
+  return <div ref={ref} className="reveal" style={style}>{children}</div>
+}
+
 export default function Contact() {
   return (
-    <section id="contact" className="py-24 relative">
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="flex items-center gap-4 mb-12">
-            <span className="font-mono text-accent text-sm">07.</span>
-            <h2 className="text-2xl md:text-3xl font-bold">Get in Touch</h2>
-            <div className="flex-1 h-px bg-white/5" />
-          </div>
+    <section id="contact" style={{ scrollMarginTop: 80, padding: '60px 0' }}>
+      <div className="container">
+        <Reveal>
+          <h2 className="section-title" style={{ fontSize: 20, fontWeight: 700, margin: '0 0 18px' }}>
+            Get in Touch
+          </h2>
+        </Reveal>
 
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-muted text-sm md:text-base mb-12 leading-relaxed">
-              Have a project in mind or just want to connect? I&apos;m always open to discussing new opportunities and collaborations.
-            </p>
+        <div className="contact-container" style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1.5fr',
+          gap: 40,
+          marginTop: 24,
+        }}>
+          <Reveal>
+            <div className="contact-info-card" style={{
+              background: 'var(--card-bg)',
+              border: '1px solid rgba(15,23,42,0.05)',
+              borderRadius: 'var(--radius)',
+              padding: 28,
+            }}>
+              <h3 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text)', margin: '0 0 12px' }}>
+                Let&apos;s talk
+              </h3>
+              <p style={{ color: 'var(--muted)', lineHeight: 1.6, marginBottom: 24, fontSize: 14 }}>
+                Have a project in mind or just want to connect? I&apos;m always open to discussing new opportunities.
+              </p>
 
-            <div className="grid sm:grid-cols-3 gap-6 mb-12">
-              <ContactCard
-                icon={<HiMail />}
-                label="Email"
-                value={personalInfo.email}
-                href={`mailto:${personalInfo.email}`}
-              />
-              <ContactCard
-                icon={<HiPhone />}
-                label="Phone"
-                value={personalInfo.phone}
-                href={`tel:${personalInfo.phone}`}
-              />
-              <ContactCard
-                icon={<HiLocationMarker />}
-                label="Location"
-                value={personalInfo.location}
-              />
+              <div className="contact-details" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <div className="contact-item" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <HiMail className="contact-icon" style={{ color: 'var(--accent)', fontSize: 20, flexShrink: 0 }} />
+                  <a href={`mailto:${personalInfo.email}`} style={{ color: 'var(--accent)', fontWeight: 500, textDecoration: 'none', fontSize: 14 }}>
+                    {personalInfo.email}
+                  </a>
+                </div>
+                <div className="contact-item" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <HiPhone className="contact-icon" style={{ color: 'var(--accent)', fontSize: 20, flexShrink: 0 }} />
+                  <span style={{ color: 'var(--muted)', fontSize: 14 }}>{personalInfo.phone}</span>
+                </div>
+                <div className="contact-item" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <HiLocationMarker className="contact-icon" style={{ color: 'var(--accent)', fontSize: 20, flexShrink: 0 }} />
+                  <span style={{ color: 'var(--muted)', fontSize: 14 }}>{personalInfo.location}</span>
+                </div>
+              </div>
             </div>
+          </Reveal>
 
-            <a
-              href={`mailto:${personalInfo.email}`}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-accent text-[#0a0a0f] rounded-full font-semibold text-sm hover:bg-accent-dark transition-all duration-300 hover:shadow-lg hover:shadow-accent/25"
+          <Reveal style={{ transitionDelay: '0.1s' }}>
+            <form
+              className="contact-form-full"
+              style={{
+                background: 'var(--card-bg)',
+                border: '1px solid rgba(15,23,42,0.05)',
+                borderRadius: 'var(--radius)',
+                padding: 28,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 16,
+              }}
+              onSubmit={(e) => e.preventDefault()}
             >
-              <HiMail className="text-lg" />
-              Send a Message
-            </a>
-          </div>
-        </motion.div>
+              <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>Name</label>
+                  <input
+                    type="text"
+                    placeholder="Your name"
+                    className="input-field"
+                    style={{
+                      padding: '10px 12px',
+                      border: '1px solid rgba(15,23,42,0.06)',
+                      borderRadius: 10,
+                      fontSize: 14,
+                      outline: 'none',
+                      background: 'var(--bg)',
+                      color: 'var(--text)',
+                      transition: 'border-color 0.12s ease, box-shadow 0.12s ease',
+                    }}
+                    onFocus={(e) => { e.target.style.borderColor = 'var(--accent)'; e.target.style.boxShadow = '0 0 0 6px rgba(37,99,235,0.06)' }}
+                    onBlur={(e) => { e.target.style.borderColor = ''; e.target.style.boxShadow = '' }}
+                  />
+                </div>
+                <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>Email</label>
+                  <input
+                    type="email"
+                    placeholder="your@email.com"
+                    className="input-field"
+                    style={{
+                      padding: '10px 12px',
+                      border: '1px solid rgba(15,23,42,0.06)',
+                      borderRadius: 10,
+                      fontSize: 14,
+                      outline: 'none',
+                      background: 'var(--bg)',
+                      color: 'var(--text)',
+                      transition: 'border-color 0.12s ease, box-shadow 0.12s ease',
+                    }}
+                    onFocus={(e) => { e.target.style.borderColor = 'var(--accent)'; e.target.style.boxShadow = '0 0 0 6px rgba(37,99,235,0.06)' }}
+                    onBlur={(e) => { e.target.style.borderColor = ''; e.target.style.boxShadow = '' }}
+                  />
+                </div>
+              </div>
+              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>Subject</label>
+                <input
+                  type="text"
+                  placeholder="What's this about?"
+                  className="input-field"
+                  style={{
+                    padding: '10px 12px',
+                    border: '1px solid rgba(15,23,42,0.06)',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    outline: 'none',
+                    background: 'var(--bg)',
+                    color: 'var(--text)',
+                    transition: 'border-color 0.12s ease, box-shadow 0.12s ease',
+                  }}
+                  onFocus={(e) => { e.target.style.borderColor = 'var(--accent)'; e.target.style.boxShadow = '0 0 0 6px rgba(37,99,235,0.06)' }}
+                  onBlur={(e) => { e.target.style.borderColor = ''; e.target.style.boxShadow = '' }}
+                />
+              </div>
+              <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>Message</label>
+                <textarea
+                  placeholder="Tell me about your project..."
+                  rows={5}
+                  className="input-field"
+                  style={{
+                    padding: '10px 12px',
+                    border: '1px solid rgba(15,23,42,0.06)',
+                    borderRadius: 10,
+                    fontSize: 14,
+                    outline: 'none',
+                    resize: 'vertical',
+                    fontFamily: 'inherit',
+                    background: 'var(--bg)',
+                    color: 'var(--text)',
+                    transition: 'border-color 0.12s ease, box-shadow 0.12s ease',
+                  }}
+                  onFocus={(e) => { e.target.style.borderColor = 'var(--accent)'; e.target.style.boxShadow = '0 0 0 6px rgba(37,99,235,0.06)' }}
+                  onBlur={(e) => { e.target.style.borderColor = ''; e.target.style.boxShadow = '' }}
+                />
+              </div>
+              <div className="form-actions" style={{ display: 'flex', gap: 12, marginTop: 8 }}>
+                <button type="submit" className="btn btn-primary" style={{ padding: '12px 28px' }}>
+                  <HiMail /> Send Message
+                </button>
+              </div>
+            </form>
+          </Reveal>
+        </div>
       </div>
     </section>
   )
-}
-
-function ContactCard({ icon, label, value, href }) {
-  const content = (
-    <motion.div
-      whileHover={{ y: -4 }}
-      className="group relative bg-surface rounded-xl p-6 border border-white/5 hover:border-accent/30 transition-all duration-300 cursor-default"
-    >
-      <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      <div className="relative">
-        <div className="text-2xl text-accent mb-3">{icon}</div>
-        <p className="text-xs text-muted uppercase tracking-wider mb-1">{label}</p>
-        <p className="text-sm font-medium">{value}</p>
-      </div>
-    </motion.div>
-  )
-
-  if (href) {
-    return <a href={href}>{content}</a>
-  }
-  return content
 }

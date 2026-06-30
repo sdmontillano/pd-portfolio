@@ -1,65 +1,85 @@
-import { motion } from 'framer-motion'
-import { HiBriefcase, HiCalendar } from 'react-icons/hi'
+import { useEffect, useRef } from 'react'
+import { HiCalendar } from 'react-icons/hi'
 import { experience } from '../data/portfolioData'
+
+function useReveal(ref) {
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) el.classList.add('visible')
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [ref])
+}
+
+function Reveal({ children, style }) {
+  const ref = useRef(null)
+  useReveal(ref)
+  return <div ref={ref} className="reveal" style={style}>{children}</div>
+}
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-24 relative">
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="flex items-center gap-4 mb-12">
-            <span className="font-mono text-accent text-sm">03.</span>
-            <h2 className="text-2xl md:text-3xl font-bold">Experience</h2>
-            <div className="flex-1 h-px bg-white/5" />
-          </div>
+    <section id="experience" style={{ scrollMarginTop: 80, padding: '60px 0' }}>
+      <div className="container">
+        <Reveal>
+          <h2 className="section-title" style={{ fontSize: 20, fontWeight: 700, margin: '0 0 18px' }}>
+            Experience
+          </h2>
+        </Reveal>
 
-          <div className="relative pl-8 border-l border-white/5">
-            <div className="absolute left-0 top-0 w-3 h-3 bg-accent rounded-full -translate-x-[7px]" />
-
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="pb-12"
-            >
-              <div className="flex flex-wrap items-center gap-3 mb-2">
-                <HiBriefcase className="text-accent text-lg" />
-                <h3 className="text-lg md:text-xl font-semibold">{experience.role}</h3>
+        <div className="timeline" style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 24 }}>
+          <Reveal>
+            <div className="timeline-item" style={{
+              background: 'var(--card-bg)',
+              border: '1px solid rgba(15,23,42,0.05)',
+              borderRadius: 14,
+              padding: 18,
+              transition: 'all 0.25s ease',
+            }}>
+              <div className="timeline-head" style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: 12,
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+                <span className="role" style={{ fontSize: 16, fontWeight: 700, color: 'var(--text)' }}>
+                  {experience.role}
+                </span>
+                <span style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  fontSize: 13,
+                  color: 'var(--muted)',
+                  fontWeight: 600,
+                }}>
+                  <HiCalendar />
+                  {experience.period}
+                </span>
               </div>
-              <p className="text-accent font-medium text-sm mb-1">{experience.company}</p>
-              <div className="flex items-center gap-2 text-muted text-xs mb-4">
-                <HiCalendar />
-                <span>{experience.period}</span>
+              <div style={{ color: 'var(--accent)', fontSize: 14, fontWeight: 600, marginTop: 4 }}>
+                {experience.company}
               </div>
-              <p className="text-xs text-muted mb-4 font-mono">&gt; {experience.department}</p>
-              <ul className="space-y-3">
+              <div style={{ color: 'var(--muted)', fontSize: 13, marginTop: 2 }}>
+                {experience.department} &middot; {experience.duration}
+              </div>
+              <p className="timeline-desc" style={{ color: 'var(--muted)', lineHeight: 1.6, marginTop: 10, fontSize: 14 }}>
                 {experience.highlights.map((h, i) => (
-                  <motion.li
-                    key={i}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.3 + i * 0.1 }}
-                    className="flex items-start gap-3 text-sm md:text-base text-muted"
-                  >
-                    <span className="text-accent mt-1.5 shrink-0">
-                      <svg width="6" height="6" viewBox="0 0 6 6" fill="currentColor">
-                        <circle cx="3" cy="3" r="3" />
-                      </svg>
-                    </span>
-                    {h}
-                  </motion.li>
+                  <span key={i} style={{ display: 'block', marginBottom: 4 }}>
+                    &bull; {h}
+                  </span>
                 ))}
-              </ul>
-            </motion.div>
-          </div>
-        </motion.div>
+              </p>
+            </div>
+          </Reveal>
+        </div>
       </div>
     </section>
   )

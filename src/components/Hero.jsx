@@ -1,181 +1,261 @@
 import { useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
-import { HiLocationMarker, HiMail, HiPhone } from 'react-icons/hi'
-import { personalInfo } from '../data/portfolioData'
+import { HiLocationMarker, HiMail } from 'react-icons/hi'
+import { FiDownload } from 'react-icons/fi'
+import { personalInfo, quickStats } from '../data/portfolioData'
 
-function useTypewriter(text, speed = 50) {
-  const displayed = useRef('')
-  const elRef = useRef(null)
-
+function useReveal(ref) {
   useEffect(() => {
-    let i = 0
-    displayed.current = ''
-    if (elRef.current) elRef.current.textContent = ''
-
-    const interval = setInterval(() => {
-      if (i < text.length) {
-        displayed.current += text[i]
-        if (elRef.current) elRef.current.textContent = displayed.current
-        i++
-      } else {
-        clearInterval(interval)
-      }
-    }, speed)
-
-    return () => clearInterval(interval)
-  }, [text, speed])
-
-  return elRef
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add('visible')
+        }
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [ref])
 }
 
-function ParticleField() {
-  const canvasRef = useRef(null)
-
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    let animId
-
-    const resize = () => {
-      canvas.width = canvas.offsetWidth
-      canvas.height = canvas.offsetHeight
-    }
-    resize()
-    window.addEventListener('resize', resize)
-
-    const particles = Array.from({ length: 50 }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      r: Math.random() * 2 + 0.5,
-      opacity: Math.random() * 0.5 + 0.1,
-    }))
-
-    const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      particles.forEach((p) => {
-        p.x += p.vx
-        p.y += p.vy
-        if (p.x < 0) p.x = canvas.width
-        if (p.x > canvas.width) p.x = 0
-        if (p.y < 0) p.y = canvas.height
-        if (p.y > canvas.height) p.y = 0
-        ctx.beginPath()
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(6, 182, 212, ${p.opacity})`
-        ctx.fill()
-      })
-      animId = requestAnimationFrame(animate)
-    }
-    animate()
-
-    return () => {
-      cancelAnimationFrame(animId)
-      window.removeEventListener('resize', resize)
-    }
-  }, [])
-
-  return <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
+function Reveal({ children, style }) {
+  const ref = useRef(null)
+  useReveal(ref)
+  return <div ref={ref} className="reveal" style={style}>{children}</div>
 }
 
 export default function Hero() {
-  const titleRef = useTypewriter(personalInfo.tagline, 40)
-
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-    >
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0f] via-[#0f172a] to-[#0a0a0f]" />
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-accent/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent-dark/10 rounded-full blur-[150px]" />
-      </div>
-      <ParticleField />
-
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-        >
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="font-mono text-accent text-sm md:text-base mb-4 tracking-wider"
-          >
-            Hello, I&apos;m
-          </motion.p>
-
-          <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold mb-4 tracking-tight">
-            <span className="bg-gradient-to-r from-white via-white to-[#06b6d4] bg-clip-text text-transparent">
-              {personalInfo.name}
-            </span>
-          </h1>
-
-          <div className="flex items-center justify-center gap-2 text-muted mb-6">
-            <HiLocationMarker className="text-accent" />
-            <span className="text-sm md:text-base">{personalInfo.location}</span>
-          </div>
-
-          <div className="h-8 mb-8">
-            <span
-              ref={titleRef}
-              className="font-mono text-base md:text-lg text-muted"
-            />
-            <span className="animate-pulse text-accent font-mono">|</span>
-          </div>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.6 }}
-            className="text-muted max-w-2xl mx-auto mb-10 text-sm md:text-base leading-relaxed"
-          >
-            {personalInfo.tagline}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
-            className="flex flex-wrap items-center justify-center gap-4"
-          >
-            <a
-              href={`mailto:${personalInfo.email}`}
-              className="flex items-center gap-2 px-6 py-3 bg-accent text-[#0a0a0f] rounded-full font-medium text-sm hover:bg-accent-dark transition-all duration-300 hover:shadow-lg hover:shadow-accent/25"
-            >
-              <HiMail className="text-lg" />
-              Get in Touch
-            </a>
-            <a
-              href={`tel:${personalInfo.phone}`}
-              className="flex items-center gap-2 px-6 py-3 border border-white/10 text-muted rounded-full font-medium text-sm hover:border-accent/50 hover:text-accent transition-all duration-300"
-            >
-              <HiPhone className="text-lg" />
-              {personalInfo.phone}
-            </a>
-          </motion.div>
-        </motion.div>
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+    <section id="hero" className="hero" style={{ overflow: 'hidden', padding: '100px 0 60px', position: 'relative' }}>
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
       >
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="w-5 h-8 border-2 border-muted/30 rounded-full flex items-start justify-center p-1"
-        >
-          <div className="w-1 h-2 bg-accent rounded-full" />
-        </motion.div>
-      </motion.div>
+        <div className="shape shape-1" style={{
+          position: 'absolute',
+          borderRadius: '50%',
+          filter: 'blur(40px)',
+          opacity: 0.05,
+          background: 'var(--accent)',
+          width: 400,
+          height: 400,
+          left: '-10%',
+          top: '10%',
+          animation: 'float1 25s ease-in-out infinite',
+        }} />
+        <div className="shape shape-2" style={{
+          position: 'absolute',
+          borderRadius: '50%',
+          filter: 'blur(40px)',
+          opacity: 0.05,
+          background: 'var(--accent-2)',
+          width: 300,
+          height: 300,
+          right: '-5%',
+          bottom: '20%',
+          animation: 'float2 20s ease-in-out infinite',
+        }} />
+        <div className="shape shape-3" style={{
+          position: 'absolute',
+          borderRadius: '50%',
+          filter: 'blur(40px)',
+          opacity: 0.05,
+          background: 'var(--accent-3)',
+          width: 200,
+          height: 200,
+          left: '30%',
+          top: '60%',
+          animation: 'float3 22s ease-in-out infinite',
+        }} />
+      </div>
+
+      <div className="hero-inner" style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 48,
+        justifyContent: 'space-between',
+        maxWidth: 'var(--container)',
+        margin: '0 auto',
+        padding: '0 20px',
+        position: 'relative',
+        zIndex: 1,
+      }}>
+        <div className="hero-copy" style={{ flex: 1, minWidth: 260 }}>
+          <Reveal>
+            <p style={{ color: 'var(--accent)', fontSize: 14, fontWeight: 600, margin: '0 0 8px', letterSpacing: '0.5px' }}>
+              Hello, I&apos;m
+            </p>
+          </Reveal>
+
+          <Reveal style={{ transitionDelay: '0.1s' }}>
+            <h1 className="hero-name" style={{
+              fontSize: 52,
+              fontWeight: 800,
+              letterSpacing: -1,
+              lineHeight: 1.05,
+              margin: 0,
+              background: 'linear-gradient(135deg, var(--text) 0, var(--accent) 50%, var(--accent-2) 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}>
+              {personalInfo.name}
+            </h1>
+          </Reveal>
+
+          <Reveal style={{ transitionDelay: '0.2s' }}>
+            <p className="hero-title" style={{ color: 'var(--accent)', fontSize: 20, fontWeight: 700, margin: '12px 0 0' }}>
+              {personalInfo.title}
+            </p>
+          </Reveal>
+
+          <Reveal style={{ transitionDelay: '0.3s' }}>
+            <p className="hero-tagline" style={{ color: 'var(--accent-2)', fontSize: 16, fontWeight: 600, margin: '8px 0 0' }}>
+              {personalInfo.subtitle}
+            </p>
+          </Reveal>
+
+          <Reveal style={{ transitionDelay: '0.4s' }}>
+            <p className="hero-lead" style={{ color: 'var(--muted)', fontSize: 17, lineHeight: 1.7, marginTop: 20, maxWidth: 600 }}>
+              {personalInfo.tagline}
+            </p>
+          </Reveal>
+
+          <Reveal style={{ transitionDelay: '0.5s' }}>
+            <div className="hero-actions" style={{ display: 'flex', gap: 14, marginTop: 28, flexWrap: 'wrap' }}>
+              <a href={`mailto:${personalInfo.email}`} className="btn btn-primary">
+                <HiMail /> Get in Touch
+              </a>
+              <a href={`tel:${personalInfo.phone}`} className="btn btn-ghost">
+                <HiLocationMarker /> {personalInfo.location}
+              </a>
+            </div>
+          </Reveal>
+
+          <Reveal style={{ transitionDelay: '0.6s' }}>
+            <ul className="quick-stats" style={{
+              display: 'flex',
+              gap: 28,
+              listStyle: 'none',
+              padding: 0,
+              marginTop: 24,
+              flexWrap: 'wrap',
+            }}>
+              {quickStats.map((stat) => (
+                <li key={stat.label} style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  fontSize: 14,
+                  fontWeight: 600,
+                  color: 'var(--muted)',
+                }}>
+                  <span style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: '50%',
+                    background: 'var(--accent)',
+                    display: 'inline-block',
+                  }} />
+                  {stat.value} {stat.label}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+
+        <div className="hero-photo" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+          padding: '0 8px',
+        }}>
+          <div
+            style={{
+              position: 'absolute',
+              inset: -8,
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3))',
+              filter: 'blur(20px)',
+              opacity: 0.15,
+              animation: 'photoGlow 4s ease-in-out infinite',
+            }}
+          />
+          <div
+            style={{
+              width: 240,
+              height: 240,
+              borderRadius: '50%',
+              background: 'var(--card-bg)',
+              border: '4px solid var(--glass)',
+              boxShadow: '0 20px 60px rgba(59,130,246,0.2)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative',
+              zIndex: 1,
+              fontSize: 72,
+              fontWeight: 700,
+              color: 'var(--accent)',
+              transition: 'transform 0.4s ease, box-shadow 0.4s ease',
+              cursor: 'default',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)'
+              e.currentTarget.style.boxShadow = '0 30px 80px rgba(59,130,246,0.3)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)'
+              e.currentTarget.style.boxShadow = '0 20px 60px rgba(59,130,246,0.2)'
+            }}
+          >
+            {personalInfo.initials}
+          </div>
+        </div>
+      </div>
+
+      <div className="scroll-indicator" style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 8,
+        position: 'absolute',
+        bottom: 30,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 2,
+        color: 'var(--muted)',
+        fontSize: 12,
+        fontWeight: 600,
+      }}>
+        <span>Scroll</span>
+        <div style={{
+          width: 24,
+          height: 40,
+          border: '2px solid var(--muted)',
+          borderRadius: 12,
+          position: 'relative',
+        }}>
+          <div style={{
+            width: 3,
+            height: 8,
+            background: 'var(--accent)',
+            borderRadius: 3,
+            position: 'absolute',
+            top: 8,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            animation: 'scrollWheel 2s ease-in-out infinite',
+          }} />
+        </div>
+      </div>
     </section>
   )
 }

@@ -1,66 +1,122 @@
-import { motion } from 'framer-motion'
-import { HiBadgeCheck, HiStar } from 'react-icons/hi'
-import { achievements, certifications } from '../data/portfolioData'
+import { useEffect, useRef } from 'react'
+import { HiCode, HiShieldCheck, HiCog } from 'react-icons/hi'
+import { services, stats } from '../data/portfolioData'
+
+function useReveal(ref) {
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) el.classList.add('visible')
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [ref])
+}
+
+function Reveal({ children, style }) {
+  const ref = useRef(null)
+  useReveal(ref)
+  return <div ref={ref} className="reveal" style={style}>{children}</div>
+}
+
+const iconMap = {
+  code: HiCode,
+  shield: HiShieldCheck,
+  gear: HiCog,
+}
+
+function ServiceCard({ title, description, icon }) {
+  const Icon = iconMap[icon] || HiCode
+
+  return (
+    <Reveal>
+      <div className="service-card" style={{
+        background: 'var(--card-bg)',
+        border: '1px solid rgba(15,23,42,0.05)',
+        borderRadius: 'var(--radius)',
+        padding: 28,
+        position: 'relative',
+        overflow: 'hidden',
+        transition: 'all 0.3s ease',
+      }}>
+        <div className="service-icon" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: 52,
+          height: 52,
+          borderRadius: 12,
+          background: 'rgba(59,130,246,0.1)',
+          fontSize: 24,
+          color: 'var(--accent)',
+          marginBottom: 16,
+        }}>
+          <Icon />
+        </div>
+        <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text)', margin: '0 0 10px' }}>
+          {title}
+        </h3>
+        <p style={{ color: 'var(--muted)', fontSize: 14, lineHeight: 1.6, margin: 0 }}>
+          {description}
+        </p>
+      </div>
+    </Reveal>
+  )
+}
 
 export default function Achievements() {
   return (
-    <section id="achievements" className="py-24 relative">
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="flex items-center gap-4 mb-12">
-            <span className="font-mono text-accent text-sm">06.</span>
-            <h2 className="text-2xl md:text-3xl font-bold">Achievements</h2>
-            <div className="flex-1 h-px bg-white/5" />
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
-            {achievements.map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group relative bg-surface rounded-xl p-6 border border-white/5 hover:border-accent/30 transition-all duration-300"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative">
-                  <HiStar className="text-xl text-accent mb-3" />
-                  <h3 className="font-semibold text-base mb-2">{item.title}</h3>
-                  <p className="text-sm text-muted leading-relaxed">{item.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <h3 className="font-mono text-xs uppercase tracking-widest text-muted mb-6 flex items-center gap-2">
-              <HiBadgeCheck className="text-accent text-base" />
-              Certifications
-            </h3>
-            <div className="flex flex-wrap gap-3">
-              {certifications.map((cert) => (
-                <span
-                  key={cert}
-                  className="px-4 py-2 bg-surface rounded-lg border border-white/5 text-sm text-muted hover:border-accent/30 hover:text-white transition-all duration-300 cursor-default"
-                >
-                  {cert}
-                </span>
+    <>
+      <section style={{ scrollMarginTop: 80 }}>
+        <div className="stats-section" style={{
+          background: 'var(--card-bg)',
+          borderTop: '1px solid rgba(15,23,42,0.05)',
+          borderBottom: '1px solid rgba(15,23,42,0.05)',
+          padding: '30px 0',
+        }}>
+          <div className="container">
+            <div className="stats-grid" style={{ display: 'flex', flexWrap: 'wrap', gap: 60, justifyContent: 'center' }}>
+              {stats.map((stat) => (
+                <Reveal key={stat.label}>
+                  <div className="stat-item" style={{ textAlign: 'center' }}>
+                    <div className="stat-value" style={{ color: 'var(--accent)', fontSize: 28, fontWeight: 800, lineHeight: 1 }}>
+                      {stat.value}
+                    </div>
+                    <div className="stat-label" style={{ color: 'var(--muted)', fontSize: 13, fontWeight: 600, letterSpacing: '0.5px', textTransform: 'uppercase', marginTop: 6 }}>
+                      {stat.label}
+                    </div>
+                  </div>
+                </Reveal>
               ))}
             </div>
-          </motion.div>
-        </motion.div>
-      </div>
-    </section>
+          </div>
+        </div>
+      </section>
+
+      <section id="achievements" style={{ scrollMarginTop: 80, padding: '60px 0' }}>
+        <div className="container">
+          <Reveal>
+            <h2 className="section-title" style={{ fontSize: 20, fontWeight: 700, margin: '0 0 18px' }}>
+              What I Can Do
+            </h2>
+          </Reveal>
+
+          <div className="services-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: 20,
+            marginTop: 24,
+          }}>
+            {services.map((service) => (
+              <ServiceCard key={service.title} {...service} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   )
 }

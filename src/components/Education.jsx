@@ -1,48 +1,84 @@
-import { motion } from 'framer-motion'
-import { HiAcademicCap } from 'react-icons/hi'
+import { useEffect, useRef } from 'react'
 import { education } from '../data/portfolioData'
+
+function useReveal(ref) {
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) el.classList.add('visible')
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [ref])
+}
+
+function Reveal({ children, style }) {
+  const ref = useRef(null)
+  useReveal(ref)
+  return <div ref={ref} className="reveal" style={style}>{children}</div>
+}
 
 export default function Education() {
   return (
-    <section id="education" className="py-24 relative">
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="flex items-center gap-4 mb-12">
-            <span className="font-mono text-accent text-sm">04.</span>
-            <h2 className="text-2xl md:text-3xl font-bold">Education</h2>
-            <div className="flex-1 h-px bg-white/5" />
-          </div>
+    <section id="education" style={{ scrollMarginTop: 80, padding: '60px 0' }}>
+      <div className="container">
+        <Reveal>
+          <h2 className="section-title" style={{ fontSize: 20, fontWeight: 700, margin: '0 0 18px' }}>
+            Education
+          </h2>
+        </Reveal>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {education.map((edu, i) => (
-              <motion.div
-                key={edu.school}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group relative bg-surface rounded-xl p-6 border border-white/5 hover:border-accent/30 transition-all duration-300"
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative">
-                  <HiAcademicCap className="text-2xl text-accent mb-4" />
-                  <h3 className="font-semibold text-base md:text-lg mb-1">{edu.school}</h3>
-                  <p className="text-sm text-accent mb-3">{edu.degree}</p>
+        <div className="education-timeline" style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 24 }}>
+          {education.map((edu, i) => (
+            <Reveal key={edu.school} style={{ transitionDelay: `${i * 0.1}s` }}>
+              <div className="education-item" style={{
+                display: 'flex',
+                gap: 20,
+                padding: 18,
+                background: 'var(--card-bg)',
+                border: '1px solid rgba(15,23,42,0.05)',
+                borderRadius: 14,
+                transition: 'all 0.25s ease',
+              }}>
+                <div className="education-year" style={{
+                  color: 'var(--accent)',
+                  fontSize: 14,
+                  fontWeight: 700,
+                  minWidth: 100,
+                  flexShrink: 0,
+                }}>
+                  {edu.year}
+                </div>
+                <div className="education-content">
+                  <div className="education-school" style={{ fontSize: 16, fontWeight: 700, color: 'var(--text)' }}>
+                    {edu.school}
+                  </div>
+                  <div className="education-degree" style={{ color: 'var(--muted)', fontSize: 14, marginTop: 2 }}>
+                    {edu.degree}
+                  </div>
                   {edu.honors && (
-                    <span className="inline-block text-xs text-muted font-mono bg-surface-light px-3 py-1.5 rounded-full border border-white/5">
+                    <div style={{
+                      display: 'inline-block',
+                      marginTop: 8,
+                      padding: '4px 10px',
+                      borderRadius: 999,
+                      fontSize: 12,
+                      fontWeight: 600,
+                      background: 'rgba(139,92,246,0.1)',
+                      color: 'var(--accent)',
+                    }}>
                       {edu.honors}
-                    </span>
+                    </div>
                   )}
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   )
