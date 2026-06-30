@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { navLinks } from '../data/portfolioData'
 
 export default function Navbar() {
@@ -29,28 +30,35 @@ export default function Navbar() {
   }, [])
 
   return (
-    <nav style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 100,
-      padding: scrolled ? '10px 0' : '16px 0',
-      background: scrolled ? 'rgba(250,248,245,0.92)' : 'transparent',
-      borderBottom: scrolled ? '1px solid var(--border)' : 'none',
-      backdropFilter: scrolled ? 'blur(8px)' : 'none',
-      transition: 'all 0.3s',
-    }}>
+    <motion.nav
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 100,
+        padding: scrolled ? '10px 0' : '16px 0',
+        background: scrolled ? 'rgba(250,248,245,0.92)' : 'transparent',
+        borderBottom: scrolled ? '1px solid var(--border)' : 'none',
+        backdropFilter: scrolled ? 'blur(8px)' : 'none',
+      }}
+      animate={{ padding: scrolled ? '10px 0' : '16px 0' }}
+      transition={{ duration: 0.3 }}
+    >
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <a href="#hero" style={{
-          fontWeight: 700,
-          fontSize: 18,
-          color: 'var(--text)',
-          textDecoration: 'none',
-          letterSpacing: -0.5,
-        }}>
+        <motion.a
+          href="#hero"
+          style={{
+            fontWeight: 700,
+            fontSize: 18,
+            color: 'var(--text)',
+            textDecoration: 'none',
+            letterSpacing: -0.5,
+          }}
+          whileHover={{ color: 'var(--red)' }}
+        >
           GL<span style={{ color: 'var(--red)' }}>.</span>
-        </a>
+        </motion.a>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
           <div className="desktop-links" style={{ display: 'flex', gap: 2 }}>
@@ -92,33 +100,41 @@ export default function Navbar() {
         </div>
       </div>
 
-      {open && (
-        <div style={{
-          background: 'var(--bg)',
-          borderBottom: '1px solid var(--border)',
-          padding: '12px 20px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 8,
-        }}>
-          {navLinks.map(({ label, href }) => (
-            <a
-              key={href}
-              href={href}
-              onClick={() => setOpen(false)}
-              style={{
-                padding: '8px 0',
-                fontSize: 14,
-                color: 'var(--text)',
-                textDecoration: 'none',
-                borderBottom: '1px solid var(--border)',
-              }}
-            >
-              {label}
-            </a>
-          ))}
-        </div>
-      )}
-    </nav>
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            style={{
+              background: 'var(--bg)',
+              borderBottom: '1px solid var(--border)',
+              padding: '12px 20px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 8,
+            }}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            {navLinks.map(({ label, href }) => (
+              <a
+                key={href}
+                href={href}
+                onClick={() => setOpen(false)}
+                style={{
+                  padding: '8px 0',
+                  fontSize: 14,
+                  color: 'var(--text)',
+                  textDecoration: 'none',
+                  borderBottom: '1px solid var(--border)',
+                }}
+              >
+                {label}
+              </a>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
   )
 }
