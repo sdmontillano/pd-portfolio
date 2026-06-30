@@ -88,16 +88,16 @@ export const certifications = [
 ]
 
 export const socials = {
-  github: '#',
-  linkedin: '#',
+  github: 'https://github.com/sdmontillano',
+  linkedin: 'https://linkedin.com/in/sdmontillano',
   email: 'godwin.lunaan.10@gmail.com',
 }
 
 export const navLinks = [
-  { label: 'about', cmd: 'cat about.md' },
-  { label: 'skills', cmd: 'ls /skills/' },
-  { label: 'experience', cmd: 'cat experience.log' },
-  { label: 'projects', cmd: './projects --list' },
-  { label: 'certs', cmd: 'cat certs.asc' },
-  { label: 'contact', cmd: 'mail --help' },
+  { label: 'about', href: '#about' },
+  { label: 'skills', href: '#skills' },
+  { label: 'experience', href: '#experience' },
+  { label: 'projects', href: '#projects' },
+  { label: 'certs', href: '#achievements' },
+  { label: 'contact', href: '#contact' },
 ]
