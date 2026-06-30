@@ -1,36 +1,46 @@
 export default function Footer() {
   return (
     <footer style={{
-      borderTop: '1px solid var(--border)',
+      borderTop: '2px solid var(--ink)',
       padding: '24px 0',
       marginTop: 40,
+      textAlign: 'center',
     }}>
       <div className="container">
-        <div className="prompt-line" style={{ justifyContent: 'center', fontSize: 12, margin: 0 }}>
-          <span className="prompt-user">guest</span>
-          <span className="prompt-at">@</span>
-          <span className="prompt-host">godwin-portfolio</span>
-          <span className="prompt-sep">:</span>
-          <span className="prompt-path">~</span>
-          <span className="prompt-symbol">$</span>
-          <span style={{ color: 'var(--text-muted)' }}>exit</span>
+        <div style={{
+          fontFamily: 'var(--font-marker)',
+          fontSize: 12,
+          color: 'var(--red)',
+          letterSpacing: 2,
+          marginBottom: 8,
+        }}>
+          ~ END OF ZINE ~
         </div>
 
         <div style={{
-          textAlign: 'center',
-          fontSize: 12,
-          color: 'var(--text-muted)',
-          marginTop: 12,
+          fontFamily: 'var(--font-hand)',
+          fontSize: 18,
+          color: 'var(--ink-light)',
         }}>
-          <span>&copy; {new Date().getFullYear()} Godwin D. Luna-an</span>
-          <span style={{ margin: '0 8px', color: 'var(--text-dim)' }}>|</span>
-          <span>Built with React + Tailwind</span>
-          <span style={{ margin: '0 8px', color: 'var(--text-dim)' }}>|</span>
-          <span style={{ color: 'var(--text-dim)' }}>PID: 1 — running</span>
+          &copy; {new Date().getFullYear()} Godwin D. Luna-an
         </div>
 
-        <div className="prompt-line" style={{ justifyContent: 'center', marginTop: 12, fontSize: 12 }}>
-          <span className="blink" style={{ color: 'var(--text)' }}>_</span>
+        <div style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: 12,
+          color: 'var(--ink-light)',
+          marginTop: 8,
+        }}>
+          built with react + tailwind &middot; designed with ❤ and tape
+        </div>
+
+        <div style={{
+          fontFamily: 'var(--font-hand)',
+          fontSize: 16,
+          color: 'var(--ink-light)',
+          marginTop: 12,
+        }}>
+          ~ thanks for reading ~
         </div>
       </div>
     </footer>

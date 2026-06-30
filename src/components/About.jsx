@@ -4,49 +4,55 @@ export default function About() {
   return (
     <section id="about">
       <div className="container">
-        <div className="section-header">
-          <h2>$ cat about.md</h2>
+        <div style={{
+          fontFamily: 'var(--font-marker)',
+          fontSize: 14,
+          color: 'var(--red)',
+          marginBottom: 4,
+          letterSpacing: 2,
+        }}>
+          PAGE 01
         </div>
+        <div className="note-card rot-1" style={{ marginBottom: 24 }}>
+          <div className="tape" style={{ top: -8, left: '50%', transform: 'translateX(-50%) rotate(-2deg)' }} />
 
-        <div className="cmd-output">
-          <div className="prompt-line" style={{ fontSize: 13, marginBottom: 12 }}>
-            <span className="prompt-user">guest</span>
-            <span className="prompt-at">@</span>
-            <span className="prompt-host">godwin-portfolio</span>
-            <span className="prompt-sep">:</span>
-            <span className="prompt-path">~</span>
-            <span className="prompt-symbol">$</span>
-            <span style={{ color: 'var(--text)' }}>cat about.md</span>
-          </div>
+          <h2 style={{
+            fontFamily: 'var(--font-marker)',
+            fontSize: 28,
+            margin: '0 0 12px',
+          }}>
+            ABOUT
+          </h2>
 
-          <div style={{ fontSize: 13, lineHeight: 1.8, marginBottom: 20 }}>
-            <span style={{ color: 'var(--text-muted)' }}># About Godwin D. Luna-an</span>
-            <div style={{ marginTop: 8 }}>
-              {summary}
+          <p style={{
+            fontFamily: 'var(--font-hand)',
+            fontSize: 20,
+            lineHeight: 1.6,
+            margin: 0,
+            color: 'var(--ink)',
+          }}>
+            {summary}
+          </p>
+
+          <div style={{
+            marginTop: 16,
+            padding: '12px 16px',
+            background: 'rgba(42,100,150,0.05)',
+            borderLeft: '4px solid var(--blue)',
+          }}>
+            <div style={{ fontFamily: 'var(--font-marker)', fontSize: 14, color: 'var(--blue)', marginBottom: 8 }}>
+              QUICK STATS
             </div>
-          </div>
-
-          <table className="cmd-table">
-            <thead>
-              <tr>
-                <th>Stat</th>
-                <th>Value</th>
-                <th>Unit</th>
-              </tr>
-            </thead>
-            <tbody>
+            <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
               {stats.map((s) => (
-                <tr key={s.label}>
-                  <td style={{ color: 'var(--text-dim)' }}>{s.label}</td>
-                  <td style={{ color: 'var(--accent)' }}>{s.value}</td>
-                  <td>{s.unit}</td>
-                </tr>
+                <div key={s.label}>
+                  <span style={{ fontFamily: 'var(--font-marker)', fontSize: 22, color: 'var(--red)' }}>{s.value}</span>
+                  <span style={{ fontFamily: 'var(--font-hand)', fontSize: 16, color: 'var(--ink-light)', marginLeft: 4 }}>
+                    {s.unit}
+                  </span>
+                </div>
               ))}
-            </tbody>
-          </table>
-
-          <div className="prompt-line" style={{ marginTop: 16, fontSize: 13 }}>
-            <span className="blink" style={{ color: 'var(--text)' }}>_</span>
+            </div>
           </div>
         </div>
       </div>

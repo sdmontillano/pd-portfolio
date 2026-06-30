@@ -1,63 +1,74 @@
 import { skills } from '../data/portfolioData'
 
+const rotations = ['rot-1', 'rot-2', 'rot-3', 'rot-4', 'rot-1', 'rot-3']
+
 export default function Skills() {
   return (
     <section id="skills">
       <div className="container">
-        <div className="section-header">
-          <h2>$ ls /skills/ -la</h2>
+        <div style={{
+          fontFamily: 'var(--font-marker)',
+          fontSize: 14,
+          color: 'var(--red)',
+          marginBottom: 4,
+          letterSpacing: 2,
+        }}>
+          PAGE 02
         </div>
 
-        <div className="cmd-output">
-          <div className="prompt-line" style={{ fontSize: 13, marginBottom: 12 }}>
-            <span className="prompt-user">guest</span>
-            <span className="prompt-at">@</span>
-            <span className="prompt-host">godwin-portfolio</span>
-            <span className="prompt-sep">:</span>
-            <span className="prompt-path">~</span>
-            <span className="prompt-symbol">$</span>
-            <span style={{ color: 'var(--text)' }}>ls /skills/ -la</span>
-          </div>
+        <h2 style={{
+          fontFamily: 'var(--font-marker)',
+          fontSize: 28,
+          margin: '0 0 20px',
+        }}>
+          SKILLS
+        </h2>
 
-          <table className="cmd-table">
-            <thead>
-              <tr>
-                <th>Skill</th>
-                <th>Level</th>
-                <th>Bar</th>
-              </tr>
-            </thead>
-            <tbody>
-              {skills.map((s) => (
-                <tr key={s.name}>
-                  <td style={{ color: 'var(--cyan)', fontWeight: 500 }}>{s.name}</td>
-                  <td style={{ color: 'var(--text)' }}>{s.level}%</td>
-                  <td style={{ width: '40%' }}>
-                    <div style={{
-                      background: 'var(--surface-2)',
-                      height: 6,
-                      width: '100%',
-                      border: '1px solid var(--border)',
-                    }}>
-                      <div style={{
-                        width: `${s.level}%`,
-                        height: '100%',
-                        background: s.level >= 80 ? 'var(--accent)' : s.level >= 70 ? 'var(--cyan)' : 'var(--text-dim)',
-                      }} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 10,
+          padding: 16,
+          background: 'white',
+          border: '2px solid var(--ink)',
+          boxShadow: '4px 4px 0 var(--ink)',
+          position: 'relative',
+        }}>
+          <div className="tape" style={{ top: -8, left: '30%', transform: 'rotate(4deg)' }} />
+          <div className="tape" style={{ top: -8, right: '30%', transform: 'rotate(-3deg)' }} />
 
-          <div className="prompt-line" style={{ marginTop: 16, fontSize: 13 }}>
-            <span style={{ color: 'var(--text-dim)' }}>total: {skills.length} entries</span>
-          </div>
+          {skills.map((s, i) => (
+            <span
+              key={s.name}
+              className={`tag ${rotations[i % rotations.length]}`}
+              style={{
+                fontSize: 15,
+                padding: '6px 14px',
+                position: 'relative',
+              }}
+            >
+              <span style={{ fontFamily: 'var(--font-hand)', fontWeight: 600, fontSize: 17 }}>{s.name}</span>
+              <span style={{
+                fontFamily: 'var(--font-body)',
+                fontSize: 11,
+                color: 'var(--ink-light)',
+                marginLeft: 6,
+              }}>
+                {s.level}%
+              </span>
+            </span>
+          ))}
+        </div>
 
-          <div className="prompt-line" style={{ marginTop: 8, fontSize: 13 }}>
-            <span className="blink" style={{ color: 'var(--text)' }}>_</span>
-          </div>
+        {/* Decorative divider */}
+        <div style={{
+          marginTop: 20,
+          textAlign: 'center',
+          fontFamily: 'var(--font-hand)',
+          fontSize: 18,
+          color: 'var(--ink-light)',
+        }}>
+          ~ * ~ * ~ * ~ * ~
         </div>
       </div>
     </section>

@@ -2,75 +2,90 @@ import { certifications, services } from '../data/portfolioData'
 
 export default function Achievements() {
   return (
-    <section id="certs">
+    <section id="achievements">
       <div className="container">
-        <div className="section-header">
-          <h2>$ cat certs.asc</h2>
+        <div style={{
+          fontFamily: 'var(--font-marker)',
+          fontSize: 14,
+          color: 'var(--red)',
+          marginBottom: 4,
+          letterSpacing: 2,
+        }}>
+          PAGE 06
         </div>
 
-        <div className="cmd-output">
-          <div className="prompt-line" style={{ fontSize: 13, marginBottom: 12 }}>
-            <span className="prompt-user">guest</span>
-            <span className="prompt-at">@</span>
-            <span className="prompt-host">godwin-portfolio</span>
-            <span className="prompt-sep">:</span>
-            <span className="prompt-path">~</span>
-            <span className="prompt-symbol">$</span>
-            <span style={{ color: 'var(--text)' }}>cat certs.asc</span>
+        <h2 style={{
+          fontFamily: 'var(--font-marker)',
+          fontSize: 28,
+          margin: '0 0 20px',
+        }}>
+          CERTIFICATIONS
+        </h2>
+
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 12,
+          padding: '16px 12px',
+          background: 'white',
+          border: '2px solid var(--ink)',
+          boxShadow: '4px 4px 0 var(--ink)',
+          position: 'relative',
+        }}>
+          <div className="tape" style={{ top: -8, left: '40%' }} />
+
+          {certifications.map((cert) => (
+            <span key={cert.name} className="tag rot-1" style={{
+              padding: '8px 14px',
+              borderStyle: 'solid',
+              borderWidth: 2,
+              fontFamily: 'var(--font-hand)',
+              fontSize: 17,
+            }}>
+              <span className="stamp" style={{ fontSize: 10, marginRight: 6, transform: 'rotate(-3deg)', borderWidth: 1 }}>
+                CERT
+              </span>
+              {cert.name}
+              <span style={{ color: 'var(--ink-light)', fontSize: 13, marginLeft: 4 }}>— {cert.issuer} ({cert.year})</span>
+            </span>
+          ))}
+        </div>
+
+        <div style={{ marginTop: 32 }}>
+          <div style={{
+            fontFamily: 'var(--font-marker)',
+            fontSize: 14,
+            color: 'var(--blue)',
+            marginBottom: 12,
+            letterSpacing: 2,
+          }}>
+            SERVICES
           </div>
 
-          <table className="cmd-table">
-            <thead>
-              <tr>
-                <th>Certification</th>
-                <th>Issuer</th>
-                <th>Year</th>
-              </tr>
-            </thead>
-            <tbody>
-              {certifications.map((cert) => (
-                <tr key={cert.name}>
-                  <td style={{ color: 'var(--accent)' }}>{cert.name}</td>
-                  <td>{cert.issuer}</td>
-                  <td style={{ color: 'var(--warn)' }}>{cert.year}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <div style={{ marginTop: 32 }}>
-            <div className="prompt-line" style={{ fontSize: 13, marginBottom: 12 }}>
-              <span className="prompt-user">guest</span>
-              <span className="prompt-at">@</span>
-              <span className="prompt-host">godwin-portfolio</span>
-              <span className="prompt-sep">:</span>
-              <span className="prompt-path">~</span>
-              <span className="prompt-symbol">$</span>
-              <span style={{ color: 'var(--text)' }}>./services --status</span>
-            </div>
-
-            <table className="cmd-table">
-              <thead>
-                <tr>
-                  <th>Service</th>
-                  <th>Command</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                {services.map((svc) => (
-                  <tr key={svc.name}>
-                    <td style={{ color: 'var(--accent)' }}>{svc.name}</td>
-                    <td style={{ color: 'var(--cyan)', fontFamily: 'monospace' }}>{svc.cmd}</td>
-                    <td style={{ fontSize: 12, color: 'var(--text-dim)' }}>{svc.desc}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="prompt-line" style={{ marginTop: 16, fontSize: 13 }}>
-            <span className="blink" style={{ color: 'var(--text)' }}>_</span>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
+            {services.map((svc, i) => (
+              <div key={svc.name} className={`note-card ${i === 0 ? 'rot-1' : i === 1 ? 'rot-3' : 'rot-2'}`} style={{ position: 'relative' }}>
+                <div style={{
+                  fontFamily: 'var(--font-marker)',
+                  fontSize: 16,
+                  color: 'var(--red)',
+                  marginBottom: 6,
+                }}>
+                  &gt; {svc.name}
+                </div>
+                <p style={{
+                  fontFamily: 'var(--font-hand)',
+                  fontSize: 17,
+                  color: 'var(--ink-light)',
+                  margin: 0,
+                }}>
+                  {svc.desc}
+                </p>
+                <span className="stamp" style={{ position: 'absolute', bottom: 8, right: 8, fontSize: 9, transform: 'rotate(5deg)', opacity: 0.5 }}>
+                  AVAILABLE
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
