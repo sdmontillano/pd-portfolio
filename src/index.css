@@ -128,8 +128,6 @@ section { scroll-margin-top: 70px; padding: 60px 0; }
   .mobile-btn { display: flex !important; }
   .form-row { grid-template-columns: 1fr !important; }
   .hero-buttons a { width: 100% !important; text-align: center !important; }
-  .floating-cta { bottom: 16px; right: 16px; }
-  .floating-cta a { padding: 10px 16px !important; font-size: 12px !important; }
 }
 
 @media (max-width: 700px) {
@@ -141,6 +139,8 @@ section { scroll-margin-top: 70px; padding: 60px 0; }
   .contact-grid { grid-template-columns: 1fr !important; }
   .hero-buttons { flex-direction: column !important; }
   .hero-right { margin-top: 0 !important; }
+  .floating-cta { bottom: 64px !important; }
+  .floating-cta a { padding: 10px 16px !important; font-size: 12px !important; }
 }
 
 @media (max-width: 480px) {

@@ -237,6 +237,30 @@ export default function Hero() {
           </motion.div>
         </motion.div>
       </div>
+
+      <motion.div
+        style={{
+          position: 'absolute',
+          bottom: 40,
+          left: '50%',
+          marginLeft: -12,
+          width: 24,
+          height: 38,
+          border: '2px solid var(--text-light)',
+          borderRadius: 12,
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.8, duration: 0.6 }}
+      >
+        <motion.div
+          style={{ width: 2, height: 8, background: 'var(--red)', marginTop: 6, borderRadius: 1 }}
+          animate={{ y: [0, 12, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </motion.div>
     </section>
   )
 }

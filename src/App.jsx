@@ -12,6 +12,7 @@ import Footer from './components/Footer'
 import FloatingCTA from './components/FloatingCTA'
 import ScrollProgressBar from './components/ScrollProgressBar'
 import WaveDivider from './components/WaveDivider'
+import BackToTop from './components/BackToTop'
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
       <Contact />
       <Footer />
       <FloatingCTA />
+      <BackToTop />
     </>
   )
 }

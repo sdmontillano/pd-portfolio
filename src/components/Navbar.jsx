@@ -130,23 +130,39 @@ export default function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
+            style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 98 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
             style={{
               position: 'fixed',
-              top: 56,
-              left: 0,
+              top: 0,
               right: 0,
+              bottom: 0,
+              width: '70%',
+              maxWidth: 280,
               background: 'var(--bg)',
-              borderBottom: '1px solid var(--border)',
-              padding: '8px 20px',
+              borderLeft: '1px solid var(--border)',
+              padding: '72px 24px 24px',
               display: 'flex',
               flexDirection: 'column',
               gap: 0,
-              boxShadow: '0 8px 24px rgba(0,0,0,0.06)',
+              zIndex: 99,
+              boxShadow: '-8px 0 32px rgba(0,0,0,0.08)',
             }}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            onClick={(e) => e.stopPropagation()}
           >
             {navLinks.map(({ label, href }) => (
               <a
@@ -154,7 +170,7 @@ export default function Navbar() {
                 href={href}
                 onClick={() => setOpen(false)}
                 style={{
-                  padding: '14px 0',
+                  padding: '16px 0',
                   fontSize: 15,
                   fontWeight: 500,
                   color: active === href.slice(1) ? 'var(--red)' : 'var(--text)',

@@ -1,6 +1,8 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { skills } from '../data/portfolioData'
+import TiltCard from './TiltCard'
+import RevealText from './RevealText'
 
 function SkillCard({ name, level, index }) {
   const ref = useRef(null)
@@ -20,18 +22,20 @@ function SkillCard({ name, level, index }) {
       transition={{ duration: 0.4, delay: index * 0.04 }}
       whileHover={{ borderColor: 'var(--red)', boxShadow: '2px 2px 0 var(--red)', y: -2 }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-        <span style={{ fontSize: 14, fontWeight: 500 }}>{name}</span>
-        <span style={{ fontSize: 12, color: 'var(--text-light)', fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>{level}%</span>
-      </div>
-      <div style={{ height: 3, background: 'var(--border)', borderRadius: 0, overflow: 'hidden' }}>
-        <motion.div
-          style={{ height: '100%', background: 'var(--red)', borderRadius: 0 }}
-          initial={{ width: 0 }}
-          animate={inView ? { width: `${level}%` } : { width: 0 }}
-          transition={{ duration: 0.8, ease: 'easeOut', delay: index * 0.04 }}
-        />
-      </div>
+      <TiltCard style={{ transformStyle: 'preserve-3d' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+          <span style={{ fontSize: 14, fontWeight: 500 }}>{name}</span>
+          <span style={{ fontSize: 12, color: 'var(--text-light)', fontFamily: 'var(--font-serif)', fontStyle: 'italic' }}>{level}%</span>
+        </div>
+        <div style={{ height: 3, background: 'var(--border)', borderRadius: 0, overflow: 'hidden' }}>
+          <motion.div
+            style={{ height: '100%', background: 'var(--red)', borderRadius: 0 }}
+            initial={{ width: 0 }}
+            animate={inView ? { width: `${level}%` } : { width: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut', delay: index * 0.04 }}
+          />
+        </div>
+      </TiltCard>
     </motion.div>
   )
 }
@@ -49,7 +53,7 @@ export default function Skills() {
           <div className="section-label">Skills</div>
           <div className="vermillion-bar" />
           <div className="section-title">
-            Expertise <span>&amp; Toolkit</span>
+            <RevealText text="Expertise " as="span" />&amp; <RevealText text="Toolkit" as="span" />
           </div>
         </motion.div>
 
