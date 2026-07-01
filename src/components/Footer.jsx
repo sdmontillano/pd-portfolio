@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion'
+import { FiGithub, FiLinkedin } from 'react-icons/fi'
+import { socials } from '../data/portfolioData'
 
 export default function Footer() {
   return (
@@ -10,6 +12,46 @@ export default function Footer() {
       transition={{ duration: 0.6 }}
     >
       <div className="container">
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginBottom: 20 }}>
+          <motion.a
+            href={socials.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 36,
+              height: 36,
+              border: '1px solid var(--border)',
+              color: 'var(--text-light)',
+              fontSize: 16,
+            }}
+            whileHover={{ borderColor: 'var(--red)', color: 'var(--red)' }}
+            whileTap={{ scale: 0.92 }}
+          >
+            <FiGithub />
+          </motion.a>
+          <motion.a
+            href={socials.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 36,
+              height: 36,
+              border: '1px solid var(--border)',
+              color: 'var(--text-light)',
+              fontSize: 16,
+            }}
+            whileHover={{ borderColor: 'var(--red)', color: 'var(--red)' }}
+            whileTap={{ scale: 0.92 }}
+          >
+            <FiLinkedin />
+          </motion.a>
+        </div>
         <div style={{ width: 40, height: 2, background: 'var(--red)', margin: '0 auto 16px' }} />
         <div style={{ fontSize: 13, color: 'var(--text-light)' }}>
           &copy; {new Date().getFullYear()} Godwin D. Luna-an

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { personalInfo } from '../data/portfolioData'
+import { FiGithub, FiLinkedin } from 'react-icons/fi'
+import { personalInfo, socials } from '../data/portfolioData'
 import pfp from '../assets/PFP.jfif'
 
 const roles = personalInfo.roles || ['Full-Stack Developer', 'Ethical Hacker']
@@ -219,6 +220,46 @@ export default function Hero() {
               animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 120, damping: 12, delay: 0.4 }}
             />
+            <motion.div variants={fadeUp} style={{ display: 'flex', gap: 10 }}>
+              <motion.a
+                href={socials.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 40,
+                  height: 40,
+                  border: '1px solid var(--border)',
+                  color: 'var(--text-light)',
+                  fontSize: 18,
+                }}
+                whileHover={{ borderColor: 'var(--red)', color: 'var(--red)', y: -2 }}
+                whileTap={{ scale: 0.92 }}
+              >
+                <FiGithub />
+              </motion.a>
+              <motion.a
+                href={socials.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 40,
+                  height: 40,
+                  border: '1px solid var(--border)',
+                  color: 'var(--text-light)',
+                  fontSize: 18,
+                }}
+                whileHover={{ borderColor: 'var(--red)', color: 'var(--red)', y: -2 }}
+                whileTap={{ scale: 0.92 }}
+              >
+                <FiLinkedin />
+              </motion.a>
+            </motion.div>
             <motion.div variants={fadeUp} style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 13, color: 'var(--text-light)', marginBottom: 4 }}>based in</div>
               <div style={{ fontWeight: 600, fontSize: 15 }}>{personalInfo.location}</div>
