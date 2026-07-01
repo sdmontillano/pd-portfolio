@@ -101,7 +101,7 @@ export default function Contact() {
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.4, delay: 0.3 }}
         >
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <div className="form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             <input
               type="text"
               name="name"

@@ -149,7 +149,7 @@ export default function Hero() {
             }}>
               {personalInfo.tagline}
             </motion.p>
-            <motion.div variants={fadeUp} style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
+            <motion.div variants={fadeUp} className="hero-buttons" style={{ display: 'flex', gap: 12, marginTop: 28, flexWrap: 'wrap' }}>
               <motion.a
                 href={`mailto:${personalInfo.email}`}
                 style={{
@@ -203,7 +203,7 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          <motion.div variants={fadeUp} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
+          <motion.div variants={fadeUp} className="hero-right" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
             <motion.div
               className="hanko"
               style={{ width: 80, height: 80, fontSize: 14 }}

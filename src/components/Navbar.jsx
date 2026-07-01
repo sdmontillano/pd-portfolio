@@ -106,11 +106,13 @@ export default function Navbar() {
               style={{
                 background: 'none',
                 border: '1px solid var(--border)',
-                padding: '4px 10px',
-                fontSize: 14,
+                padding: '8px 12px',
+                fontSize: 16,
                 cursor: 'pointer',
                 color: 'var(--text)',
                 display: 'none',
+                lineHeight: 1,
+                minHeight: 40,
               }}
             >
               {open ? '✕' : '☰'}
@@ -122,12 +124,17 @@ export default function Navbar() {
         {open && (
           <motion.div
             style={{
+              position: 'fixed',
+              top: 56,
+              left: 0,
+              right: 0,
               background: 'var(--bg)',
               borderBottom: '1px solid var(--border)',
-              padding: '12px 20px',
+              padding: '8px 20px',
               display: 'flex',
               flexDirection: 'column',
-              gap: 8,
+              gap: 0,
+              boxShadow: '0 8px 24px rgba(0,0,0,0.06)',
             }}
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
@@ -140,11 +147,13 @@ export default function Navbar() {
                 href={href}
                 onClick={() => setOpen(false)}
                 style={{
-                  padding: '8px 0',
-                  fontSize: 14,
-                  color: 'var(--text)',
+                  padding: '14px 0',
+                  fontSize: 15,
+                  fontWeight: 500,
+                  color: active === href.slice(1) ? 'var(--red)' : 'var(--text)',
                   textDecoration: 'none',
                   borderBottom: '1px solid var(--border)',
+                  transition: 'color 0.2s',
                 }}
               >
                 {label}

@@ -114,19 +114,6 @@ section { scroll-margin-top: 70px; padding: 60px 0; }
   background: var(--red-light);
 }
 
-@media (max-width: 768px) {
-  .container { padding: 0 20px; }
-  section { padding: 40px 0; }
-  .section-title { font-size: 26px; }
-  .desktop-links { display: none !important; }
-  .mobile-btn { display: flex !important; }
-}
-
-@media (min-width: 769px) {
-  .desktop-links { display: flex !important; }
-  .mobile-btn { display: none !important; }
-}
-
 .gradient-text {
   background: linear-gradient(135deg, var(--text) 30%, var(--red) 100%);
   -webkit-background-clip: text;
@@ -141,6 +128,26 @@ section { scroll-margin-top: 70px; padding: 60px 0; }
   z-index: 99;
 }
 
+/* === Responsive Breakpoints === */
+
+@media (min-width: 769px) {
+  .desktop-links { display: flex !important; }
+  .mobile-btn { display: none !important; }
+}
+
+@media (max-width: 768px) {
+  .container { padding: 0 20px; }
+  section { padding: 40px 0; }
+  .section-title { font-size: 26px; }
+  .desktop-links { display: none !important; }
+  .mobile-btn { display: flex !important; }
+  .form-row { grid-template-columns: 1fr !important; }
+  .hero-buttons a { width: 100% !important; text-align: center !important; }
+  .section-title { font-size: 26px; }
+  .floating-cta { bottom: 16px; right: 16px; }
+  .floating-cta a { padding: 10px 16px !important; font-size: 12px !important; }
+}
+
 @media (max-width: 700px) {
   .hero-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
   #hero h1 { font-size: 32px !important; }
@@ -148,4 +155,15 @@ section { scroll-margin-top: 70px; padding: 60px 0; }
   .exp-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
   .edu-grid { grid-template-columns: 1fr !important; }
   .contact-grid { grid-template-columns: 1fr !important; }
+  .hero-buttons { flex-direction: column !important; }
+  .hero-right { margin-top: 0 !important; }
+}
+
+@media (max-width: 480px) {
+  .container { padding: 0 16px; }
+  section { padding: 32px 0; }
+  #hero h1 { font-size: 26px !important; }
+  .section-title { font-size: 22px; }
+  .hero-grid { gap: 24px !important; }
+  .hero-right .hanko { width: 60px !important; height: 60px !important; font-size: 12px !important; }
 }
