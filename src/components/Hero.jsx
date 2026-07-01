@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { personalInfo } from '../data/portfolioData'
+import pfp from '../assets/PFP.jfif'
 
 const roles = personalInfo.roles || ['Full-Stack Developer', 'Ethical Hacker']
 
@@ -204,15 +205,20 @@ export default function Hero() {
           </motion.div>
 
           <motion.div variants={fadeUp} className="hero-right" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
-            <motion.div
-              className="hanko"
-              style={{ width: 80, height: 80, fontSize: 14 }}
-              initial={{ rotate: -5, scale: 0 }}
-              animate={{ rotate: -5, scale: 1 }}
+            <motion.img
+              src={pfp}
+              alt={personalInfo.name}
+              style={{
+                width: 180,
+                height: 180,
+                borderRadius: '50%',
+                objectFit: 'cover',
+                border: '3px solid var(--red)',
+              }}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
               transition={{ type: 'spring', stiffness: 120, damping: 12, delay: 0.4 }}
-            >
-              GL
-            </motion.div>
+            />
             <motion.div variants={fadeUp} style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 13, color: 'var(--text-light)', marginBottom: 4 }}>based in</div>
               <div style={{ fontWeight: 600, fontSize: 15 }}>{personalInfo.location}</div>
