@@ -154,7 +154,7 @@ export default function Hero() {
                 href={`mailto:${personalInfo.email}`}
                 style={{
                   padding: '12px 28px',
-                  background: 'var(--text)',
+                  background: '#1a1a1a',
                   color: 'white',
                   textDecoration: 'none',
                   fontSize: 13,

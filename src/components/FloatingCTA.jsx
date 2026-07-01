@@ -29,7 +29,7 @@ export default function FloatingCTA() {
             alignItems: 'center',
             gap: 8,
             padding: '12px 20px',
-            background: 'var(--text)',
+            background: '#1a1a1a',
             color: 'white',
             textDecoration: 'none',
             fontSize: 13,

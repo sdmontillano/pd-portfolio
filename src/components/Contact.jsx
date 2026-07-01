@@ -167,7 +167,7 @@ export default function Contact() {
             type="submit"
             style={{
               padding: '12px 32px',
-              background: 'var(--text)',
+              background: '#1a1a1a',
               color: 'white',
               border: 'none',
               fontSize: 13,
