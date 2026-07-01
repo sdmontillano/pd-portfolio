@@ -1,12 +1,19 @@
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 export default function BackToTop() {
-  const scrolled = typeof window !== 'undefined' && window.scrollY > 800
-  const handleClick = () => window.scrollTo({ top: 0, behavior: 'smooth' })
+  const [show, setShow] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > 800)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   return (
     <motion.button
-      onClick={handleClick}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       style={{
         position: 'fixed',
         bottom: 24,
@@ -23,10 +30,9 @@ export default function BackToTop() {
         cursor: 'pointer',
         fontSize: 16,
         lineHeight: 1,
-        opacity: scrolled ? 1 : 0,
-        pointerEvents: scrolled ? 'auto' : 'none',
-        transition: 'opacity 0.3s',
       }}
+      animate={{ opacity: show ? 1 : 0, pointerEvents: show ? 'auto' : 'none' }}
+      transition={{ duration: 0.3 }}
       whileHover={{ borderColor: 'var(--red)', color: 'var(--red)' }}
       whileTap={{ scale: 0.9 }}
     >

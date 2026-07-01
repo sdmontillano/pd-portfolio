@@ -17,7 +17,7 @@ export default function Contact() {
     const email = form.email.value
     const subject = form.subject.value || 'Portfolio Inquiry'
     const message = form.message.value
-    const body = `Name: ${name}%0AEmail: ${email}%0A%0A${message}`
+    const body = `Name: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0A%0A${encodeURIComponent(message)}`
     window.location.href = `mailto:${personalInfo.email}?subject=${encodeURIComponent(subject)}&body=${body}`
     setSent(true)
     setTimeout(() => setSent(false), 3000)
