@@ -114,12 +114,12 @@ export const testimonials = [
 ]
 
 export const navLinks = [
-  { label: 'about', href: '#about' },
-  { label: 'skills', href: '#skills' },
-  { label: 'experience', href: '#experience' },
-  { label: 'projects', href: '#projects' },
-  { label: 'certs', href: '#achievements' },
-  { label: 'contact', href: '#contact' },
+  { label: 'About', href: '#about' },
+  { label: 'Skills', href: '#skills' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Certificates', href: '#achievements' },
+  { label: 'Contact', href: '#contact' },
 ]
 
 export const techColors = {
