@@ -11,6 +11,18 @@
   --border: #e0d8cc;
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-serif: 'Noto Serif', Georgia, serif;
+  --nav-bg: rgba(250,248,245,0.92);
+}
+
+[data-theme="dark"] {
+  --bg: #0e0e0e;
+  --surface: #1a1a1a;
+  --text: #e8e8e8;
+  --text-light: #999;
+  --red: #ef5350;
+  --red-light: rgba(239,83,80,0.08);
+  --border: #2a2a2a;
+  --nav-bg: rgba(14,14,14,0.92);
 }
 
 * { box-sizing: border-box; }

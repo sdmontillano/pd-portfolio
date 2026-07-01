@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { personalInfo } from '../data/portfolioData'
 
@@ -7,6 +8,22 @@ const cardVariant = {
 }
 
 export default function Contact() {
+  const [sent, setSent] = useState(false)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const form = e.target
+    fetch('https://formspree.io/f/your-form-id', {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { Accept: 'application/json' },
+    }).then(() => {
+      setSent(true)
+      form.reset()
+      setTimeout(() => setSent(false), 4000)
+    }).catch(() => {})
+  }
+
   return (
     <section id="contact" style={{ background: 'var(--surface)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
       <div className="container">
@@ -31,7 +48,7 @@ export default function Contact() {
           transition={{ duration: 0.4, delay: 0.1 }}
         >
           <p style={{ fontSize: 14, color: 'var(--text-light)', lineHeight: 1.8 }}>
-            Have a project in mind or just want to connect? I&apos;m always open to discussing new opportunities and collaborations.
+            Have a project in mind or just want to connect? Reach out directly or use the form below.
           </p>
         </motion.div>
 
@@ -70,31 +87,101 @@ export default function Contact() {
           })}
         </div>
 
-        <motion.div
-          style={{ textAlign: 'center' }}
+        <motion.form
+          onSubmit={handleSubmit}
+          style={{
+            maxWidth: 520,
+            margin: '0 auto',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 12,
+          }}
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.4, delay: 0.35 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
         >
-          <motion.a
-            href={`mailto:${personalInfo.email}`}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Your name"
+              required
+              style={{
+                padding: '10px 14px',
+                border: '1px solid var(--border)',
+                background: 'var(--bg)',
+                color: 'var(--text)',
+                fontSize: 14,
+                fontFamily: 'var(--font-sans)',
+                outline: 'none',
+              }}
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Your email"
+              required
+              style={{
+                padding: '10px 14px',
+                border: '1px solid var(--border)',
+                background: 'var(--bg)',
+                color: 'var(--text)',
+                fontSize: 14,
+                fontFamily: 'var(--font-sans)',
+                outline: 'none',
+              }}
+            />
+          </div>
+          <input
+            type="text"
+            name="subject"
+            placeholder="Subject"
             style={{
-              display: 'inline-block',
-              padding: '14px 40px',
+              padding: '10px 14px',
+              border: '1px solid var(--border)',
+              background: 'var(--bg)',
+              color: 'var(--text)',
+              fontSize: 14,
+              fontFamily: 'var(--font-sans)',
+              outline: 'none',
+            }}
+          />
+          <textarea
+            name="message"
+            placeholder="Your message"
+            rows={4}
+            required
+            style={{
+              padding: '10px 14px',
+              border: '1px solid var(--border)',
+              background: 'var(--bg)',
+              color: 'var(--text)',
+              fontSize: 14,
+              fontFamily: 'var(--font-sans)',
+              outline: 'none',
+              resize: 'vertical',
+            }}
+          />
+          <motion.button
+            type="submit"
+            style={{
+              padding: '12px 32px',
               background: 'var(--text)',
               color: 'white',
-              textDecoration: 'none',
+              border: 'none',
               fontSize: 13,
               fontWeight: 600,
-              letterSpacing: 2,
+              letterSpacing: 1,
+              cursor: 'pointer',
+              fontFamily: 'var(--font-sans)',
             }}
-            whileHover={{ background: 'var(--red)', scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
+            whileHover={{ background: 'var(--red)', scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            SEND MESSAGE
-          </motion.a>
-        </motion.div>
+            {sent ? '✓ MESSAGE SENT' : 'SEND MESSAGE'}
+          </motion.button>
+        </motion.form>
       </div>
     </section>
   )

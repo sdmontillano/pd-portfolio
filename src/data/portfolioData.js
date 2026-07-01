@@ -100,6 +100,19 @@ export const socials = {
   email: 'godwin.lunaan.10@gmail.com',
 }
 
+export const testimonials = [
+  {
+    quote: 'Godwin delivered a robust profiling system that streamlined our barangay data collection. His attention to security and clean code made the difference.',
+    name: 'LYDO Supervisor',
+    role: 'LGU Manolo Fortich',
+  },
+  {
+    quote: 'Working with Godwin was seamless. He understands both frontend and backend deeply, and his ethical hacking background adds a layer of trust.',
+    name: 'Project Lead',
+    role: 'IT Department',
+  },
+]
+
 export const navLinks = [
   { label: 'about', href: '#about' },
   { label: 'skills', href: '#skills' },
@@ -108,3 +121,24 @@ export const navLinks = [
   { label: 'certs', href: '#achievements' },
   { label: 'contact', href: '#contact' },
 ]
+
+export const techColors = {
+  'Python': '#3776AB',
+  'Django': '#092E20',
+  'React': '#61DAFB',
+  'Laravel': '#FF2D20',
+  'PHP': '#777BB4',
+  'Tailwind CSS': '#06B6D4',
+  'TypeScript': '#3178C6',
+  'Node.js': '#339933',
+  'PostgreSQL': '#4169E1',
+  'Docker': '#2496ED',
+  'Git / GitHub': '#F05032',
+  'Kali Linux': '#557C94',
+  'Frappe': '#0089FF',
+  'ERPNext': '#024B6E',
+  'Vue.js': '#4FC08D',
+  'DigitalOcean': '#0080FF',
+  'Hostinger': '#673AB7',
+  'Vulnerability Assessment': '#E91E63',
+}

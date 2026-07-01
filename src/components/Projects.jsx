@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { FiExternalLink, FiGithub } from 'react-icons/fi'
-import { projects } from '../data/portfolioData'
+import { projects, techColors } from '../data/portfolioData'
 
 const container = {
   initial: { opacity: 0 },
@@ -78,9 +78,25 @@ export default function Projects() {
                   {p.description}
                 </p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 14 }}>
-                  {p.tech.map((t) => (
-                    <span key={t} className="tag" style={{ fontSize: 11, padding: '2px 8px' }}>{t}</span>
-                  ))}
+                  {p.tech.map((t) => {
+                    const color = techColors[t] || 'var(--text-light)'
+                    return (
+                      <span
+                        key={t}
+                        style={{
+                          display: 'inline-block',
+                          padding: '2px 10px',
+                          fontSize: 11,
+                          fontWeight: 500,
+                          color: color,
+                          border: `1px solid ${color}20`,
+                          background: `${color}08`,
+                        }}
+                      >
+                        {t}
+                      </span>
+                    )
+                  })}
                 </div>
                 <div style={{ display: 'flex', gap: 10, borderTop: '1px solid var(--border)', paddingTop: 12 }}>
                   <motion.a
