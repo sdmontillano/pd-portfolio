@@ -1,14 +1,23 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { personalInfo } from '../data/portfolioData'
 
 export default function FloatingCTA() {
   const [show, setShow] = useState(false)
+  const timer = useRef(null)
 
   useEffect(() => {
-    const onScroll = () => setShow(window.scrollY > 400)
+    const onScroll = () => {
+      if (timer.current) clearTimeout(timer.current)
+      timer.current = setTimeout(() => {
+        setShow(window.scrollY > 400)
+      }, 100)
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (timer.current) clearTimeout(timer.current)
+    }
   }, [])
 
   return (

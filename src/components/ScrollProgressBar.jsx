@@ -1,10 +1,7 @@
-import { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 
 export default function ScrollProgressBar() {
   const [progress, setProgress] = useState(0)
-  const scaleX = useRef(0)
-  const [, forceRender] = useState(0)
 
   useEffect(() => {
     const onScroll = () => {

@@ -138,12 +138,10 @@ section { scroll-margin-top: 70px; padding: 60px 0; }
 @media (max-width: 768px) {
   .container { padding: 0 20px; }
   section { padding: 40px 0; }
-  .section-title { font-size: 26px; }
   .desktop-links { display: none !important; }
   .mobile-btn { display: flex !important; }
   .form-row { grid-template-columns: 1fr !important; }
   .hero-buttons a { width: 100% !important; text-align: center !important; }
-  .section-title { font-size: 26px; }
   .floating-cta { bottom: 16px; right: 16px; }
   .floating-cta a { padding: 10px 16px !important; font-size: 12px !important; }
 }

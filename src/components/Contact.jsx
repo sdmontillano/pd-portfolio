@@ -13,15 +13,14 @@ export default function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault()
     const form = e.target
-    fetch('https://formspree.io/f/your-form-id', {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { Accept: 'application/json' },
-    }).then(() => {
-      setSent(true)
-      form.reset()
-      setTimeout(() => setSent(false), 4000)
-    }).catch(() => {})
+    const name = form.name.value
+    const email = form.email.value
+    const subject = form.subject.value || 'Portfolio Inquiry'
+    const message = form.message.value
+    const body = `Name: ${name}%0AEmail: ${email}%0A%0A${message}`
+    window.location.href = `mailto:${personalInfo.email}?subject=${encodeURIComponent(subject)}&body=${body}`
+    setSent(true)
+    setTimeout(() => setSent(false), 3000)
   }
 
   return (
@@ -179,7 +178,7 @@ export default function Contact() {
             whileHover={{ background: 'var(--red)', scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            {sent ? '✓ MESSAGE SENT' : 'SEND MESSAGE'}
+            {sent ? '✓ OPENS YOUR EMAIL APP' : 'SEND MESSAGE'}
           </motion.button>
         </motion.form>
       </div>
