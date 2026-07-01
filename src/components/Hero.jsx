@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { personalInfo } from '../data/portfolioData'
 
@@ -8,6 +8,7 @@ function Typewriter({ words }) {
   const [index, setIndex] = useState(0)
   const [char, setChar] = useState(0)
   const [deleting, setDeleting] = useState(false)
+  const innerTimer = useRef(null)
 
   useEffect(() => {
     const word = words[index]
@@ -16,7 +17,7 @@ function Typewriter({ words }) {
         if (char < word.length) {
           setChar(c => c + 1)
         } else {
-          setTimeout(() => setDeleting(true), 1500)
+          innerTimer.current = setTimeout(() => setDeleting(true), 1500)
         }
       } else {
         if (char > 0) {
@@ -27,7 +28,14 @@ function Typewriter({ words }) {
         }
       }
     }, deleting ? 40 : 80)
-    return () => clearTimeout(timeout)
+
+    return () => {
+      clearTimeout(timeout)
+      if (innerTimer.current) {
+        clearTimeout(innerTimer.current)
+        innerTimer.current = null
+      }
+    }
   }, [char, deleting, index, words])
 
   return (

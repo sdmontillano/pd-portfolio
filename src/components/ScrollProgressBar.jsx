@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react'
-import { motion, useSpring } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
 
 export default function ScrollProgressBar() {
   const [progress, setProgress] = useState(0)
-  const scaleX = useSpring(0, { stiffness: 100, damping: 30 })
+  const scaleX = useRef(0)
+  const [, forceRender] = useState(0)
 
   useEffect(() => {
     const onScroll = () => {
@@ -11,13 +12,10 @@ export default function ScrollProgressBar() {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight
       const p = docHeight > 0 ? scrollTop / docHeight : 0
       setProgress(p)
-      scaleX.set(p)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
-  }, [scaleX])
-
-  if (progress === 0) return null
+  }, [])
 
   return (
     <div
@@ -29,16 +27,10 @@ export default function ScrollProgressBar() {
         height: 3,
         zIndex: 101,
         transformOrigin: '0% 50%',
+        transform: `scaleX(${progress})`,
+        background: 'var(--red)',
+        transition: 'transform 0.1s ease-out',
       }}
-    >
-      <motion.div
-        style={{
-          height: '100%',
-          background: 'var(--red)',
-          transformOrigin: '0% 50%',
-          transform: scaleX.to(v => `scaleX(${v})`),
-        }}
-      />
-    </div>
+    />
   )
 }

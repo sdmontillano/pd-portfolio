@@ -13,7 +13,7 @@ export default function WaveDivider({ color = 'var(--surface)' }) {
       >
         <path
           d="M0,30 C360,60 720,0 1440,30 L1440,0 L0,0 Z"
-          fill={color}
+          style={{ fill: color }}
         />
       </motion.svg>
     </div>
