@@ -96,7 +96,8 @@ export const certifications = [
 
 export const socials = {
   github: 'https://github.com/sdmontillano',
-  linkedin: 'https://linkedin.com/in/sdmontillano',
+  linkedin: 'https://www.linkedin.com/in/godwin-luna-an-836339384',
+  facebook: 'https://www.facebook.com/share/18w9K3fGYw/',
   email: 'godwin.lunaan.10@gmail.com',
 }
 

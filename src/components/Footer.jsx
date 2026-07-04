@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { FiGithub, FiLinkedin } from 'react-icons/fi'
+import { FaFacebookF } from 'react-icons/fa'
 import { socials } from '../data/portfolioData'
 
 export default function Footer() {
@@ -50,6 +51,25 @@ export default function Footer() {
             whileTap={{ scale: 0.92 }}
           >
             <FiLinkedin />
+          </motion.a>
+          <motion.a
+            href={socials.facebook}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 36,
+              height: 36,
+              border: '1px solid var(--border)',
+              color: 'var(--text-light)',
+              fontSize: 16,
+            }}
+            whileHover={{ borderColor: 'var(--red)', color: 'var(--red)' }}
+            whileTap={{ scale: 0.92 }}
+          >
+            <FaFacebookF />
           </motion.a>
         </div>
         <div style={{ width: 40, height: 2, background: 'var(--red)', margin: '0 auto 16px' }} />
