@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { FiGithub, FiLinkedin } from 'react-icons/fi'
+import { FiLinkedin } from 'react-icons/fi'
 import { FaFacebookF } from 'react-icons/fa'
 import { socials } from '../data/portfolioData'
 
@@ -14,25 +14,6 @@ export default function Footer() {
     >
       <div className="container">
         <div style={{ display: 'flex', justifyContent: 'center', gap: 12, marginBottom: 20 }}>
-          <motion.a
-            href={socials.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 36,
-              height: 36,
-              border: '1px solid var(--border)',
-              color: 'var(--text-light)',
-              fontSize: 16,
-            }}
-            whileHover={{ borderColor: 'var(--red)', color: 'var(--red)' }}
-            whileTap={{ scale: 0.92 }}
-          >
-            <FiGithub />
-          </motion.a>
           <motion.a
             href={socials.linkedin}
             target="_blank"

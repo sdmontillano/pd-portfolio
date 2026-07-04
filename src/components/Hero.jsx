@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { FiGithub, FiLinkedin } from 'react-icons/fi'
+import { FiLinkedin } from 'react-icons/fi'
 import { FaFacebookF } from 'react-icons/fa'
 import { personalInfo, socials } from '../data/portfolioData'
 import pfp from '../assets/PFP.jfif'
@@ -222,25 +222,6 @@ export default function Hero() {
               transition={{ type: 'spring', stiffness: 120, damping: 12, delay: 0.4 }}
             />
             <motion.div variants={fadeUp} style={{ display: 'flex', gap: 10 }}>
-              <motion.a
-                href={socials.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 40,
-                  height: 40,
-                  border: '1px solid var(--border)',
-                  color: 'var(--text-light)',
-                  fontSize: 18,
-                }}
-                whileHover={{ borderColor: 'var(--red)', color: 'var(--red)', y: -2 }}
-                whileTap={{ scale: 0.92 }}
-              >
-                <FiGithub />
-              </motion.a>
               <motion.a
                 href={socials.linkedin}
                 target="_blank"
